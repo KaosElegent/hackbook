@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
@@ -28,10 +28,15 @@ export default function Navbar() {
     "Log Out",
   ];
 
+  const pathname = usePathname();
   const { user } = useUser();
   const [src, setSrc] = useState<string>('');
-  QRCode.toDataURL(user?.email || '').then(setSrc);
-  const pathname = usePathname();
+
+  useEffect(() => {
+    if(user?.email){
+      QRCode.toDataURL(user?.email || '').then(setSrc);
+    }
+  }, []);
 
   return (
     <div>

@@ -42,12 +42,12 @@ export default function Navbar() {
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem isActive>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/">
               Home
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="#">Dashboard</Link>
+            <Link color="foreground" href="/dashboard">Dashboard</Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">

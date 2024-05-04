@@ -12,8 +12,8 @@ const StartHere: React.FC = () => {
 
     const router = useRouter();
 
-    const routeOrganiser = async () => {
-        localStorage.setItem('userType', 'organiser')
+    const routeOrganizer = async () => {
+        localStorage.setItem('userType', 'organizer')
         router.push('/api/auth/login');
     }
     const routeHacker = async () => {
@@ -39,9 +39,9 @@ const StartHere: React.FC = () => {
         }
     }
 
-    const createOrganiser = async() => {
+    const createOrganizer = async() => {
         try {
-            const response = await fetch('/api/organisers', {
+            const response = await fetch('/api/organizers', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,8 +59,8 @@ const StartHere: React.FC = () => {
 
     useEffect(() => {      
         if(user){
-            if(localStorage.getItem("userType")==='organiser'){
-                createOrganiser();
+            if(localStorage.getItem("userType")==='organizer'){
+                createOrganizer();
             }
             else{
                 createHacker();
@@ -74,7 +74,7 @@ const StartHere: React.FC = () => {
                     <Button color="primary" onClick={routeHacker} >
                         Hacker
                     </Button>
-                    <Button color="secondary" onClick={routeOrganiser}>
+                    <Button color="secondary" onClick={routeOrganizer}>
                         Organiser
                     </Button>
             </div>

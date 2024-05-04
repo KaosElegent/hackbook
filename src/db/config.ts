@@ -4,10 +4,10 @@ import mongoose from "mongoose";
 
 export default async function connectDB() {
   try {
-    console.log(process.env.DATABASE_URL, process.env.DATABASE_NAME);
-    await mongoose.connect(process.env.DATABASE_URL || "", { dbName: process.env.DATABASE_NAME || "" });
+    console.log(process.env.MONGODB_URI, process.env.DATABASE_NAME);
+    await mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
     const connection = mongoose.connection;
-    console.log("COnencting to Mongo!");
+    console.log("Connecting to Mongo!");
     connection.on("connected", () => {
       console.info("MongoDB is connected 🟢");
     });

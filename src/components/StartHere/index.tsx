@@ -12,6 +12,11 @@ const StartHere: React.FC = () => {
 
     const router = useRouter();
 
+    const connectAndContinue = async () => {
+        await fetch("/api/connectMongo");
+        router.push('/dashboard');
+    }
+
     const routeOrganizer = async () => {
         localStorage.setItem('userType', 'organizer')
         await fetch("/api/connectMongo");
@@ -22,7 +27,6 @@ const StartHere: React.FC = () => {
         await fetch("/api/connectMongo");
         router.push('/api/auth/login');
     }
-
 
     const createHacker = async() => {
         try {
@@ -67,7 +71,7 @@ const StartHere: React.FC = () => {
             else{
                 createHacker();
             }
-            router.push('/dashboard');
+            connectAndContinue();
         }
     }, [user]);
 

@@ -12,6 +12,6 @@ const HackerSchema = new Schema({
   ],
 });
 
-const Hacker = models.Hacker || model("Hackers", HackerSchema);
+const Hacker = models.hacker || model("hackers", HackerSchema);
 
 export default Hacker;

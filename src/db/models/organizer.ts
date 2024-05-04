@@ -7,6 +7,6 @@ const OrganizerSchema = new Schema({
   hackathons: [{ type: Schema.Types.ObjectId, ref: "Hackathon" }],
 });
 
-const Organizer = models.Organizer || model("Organizers", OrganizerSchema);
+const Organizer = models.organizers || model("organizers", OrganizerSchema);
 
 export default Organizer;

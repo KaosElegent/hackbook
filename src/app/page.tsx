@@ -1,13 +1,18 @@
 'use client'
 
-import {NextUIProvider} from '@nextui-org/react'
-import Image from "next/image";
+// VS code was complaining so I imported it in the other format
+//const NextUIProvider = require('@nextui-org/react');
+import {NextUIProvider} from '@nextui-org/react';
+
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 export default function Home() {
   return (
-    <NextUIProvider>
-      <main>
-      </main>
-    </NextUIProvider>
+    <UserProvider>
+      <NextUIProvider>
+        <main>
+        </main>
+      </NextUIProvider>
+    </UserProvider>
   );
 }

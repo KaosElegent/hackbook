@@ -46,41 +46,8 @@ export default function Leaderboard() {
   });
 
   return (
-    <Table
-      isHeaderSticky
-      aria-label="Example table with infinite pagination"
-      baseRef={scrollerRef}
-      bottomContent={
-        hasMore ? (
-          <div className="flex w-full justify-center">
-            <Spinner ref={loaderRef} color="white" />
-          </div>
-        ) : null
-      }
-      classNames={{
-        base: "max-h-[520px] overflow-scroll",
-        table: "min-h-[400px]",
-      }}
-    >
-      <TableHeader>
-        <TableColumn key="name">Name</TableColumn>
-        <TableColumn key="height">Height</TableColumn>
-        <TableColumn key="mass">Mass</TableColumn>
-        <TableColumn key="birth_year">Birth year</TableColumn>
-      </TableHeader>
-      <TableBody
-        isLoading={isLoading}
-        items={list.items}
-        loadingContent={<Spinner color="white" />}
-      >
-        {(item: any) => (
-          <TableRow key={item.name}>
-            {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <h2 className="text-4xl text-center py-2 text-transparent bg-gradient-to-tr from-yellow-600 to-purple-600 bg-clip-text font-bold">
+      {"Leaderboard"}
+    </h2>
   );
 }

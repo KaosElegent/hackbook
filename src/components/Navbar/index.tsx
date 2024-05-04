@@ -68,7 +68,7 @@ export default function Navbar() {
                     name={user.name}
                   />
                 </DropdownTrigger>
-                <DropdownMenu aria-label="User Actions" variant="flat">
+                <DropdownMenu aria-label="User Actions" variant="flat" className="shadow-around rounded-xl">
                   <DropdownItem key="profile" className="h-14 gap-2">
                     <p className="font-bold">Signed in as</p>
                     <p className="font-bold">@{user.nickname}</p>

@@ -9,13 +9,14 @@ import React, { useEffect, useState } from "react";
 import HackathonCard from "@/components/HackathonCard";
 import Leaderboard from "@/components/Leaderboard";
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
-import { Spinner } from "@nextui-org/react";
+import { Spinner, Card, CardBody } from "@nextui-org/react";
+import Events from "@/components/Events";
 
 export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [hackathons, setHackathons] = useState([]);
-  const [selectedHackathon, setSelectedHackathon] = useState(null);
+  const [selectedHackathon, setSelectedHackathon] = React.useState(null);
 
   const fetchHackathons = async (cursor: string) => {
     setIsLoading(true);
@@ -50,6 +51,15 @@ export default function Dashboard() {
   const handleCardClick = (hackathon: React.SetStateAction<null>) => {
     setSelectedHackathon(hackathon);
   };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
   return (
     <NextUIProvider>
       <Navbar />
@@ -58,7 +68,7 @@ export default function Dashboard() {
           <Spinner color="default" />
         ) : (
           <>
-            <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2">
+            <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around">
               {hackathons.length > 0 ? (
                 hackathons.map((hackathon, index) => (
                   <div key={index} className="mb-2">
@@ -75,10 +85,25 @@ export default function Dashboard() {
                 </p>
               )}
             </div>
-              <div className="col-span-3 border-2 border-[#27272a]  rounded-[15px] p-2">
-                {selectedHackathon !== null && <Title title={selectedHackathon.name} />}
-                <Leaderboard />
-              </div>
+            <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
+              {selectedHackathon !== null && (
+                <Title
+                  // @ts-ignore
+                  title={selectedHackathon.name}
+                  // @ts-ignore
+                  location={selectedHackathon.location}
+                  // @ts-ignore
+                  startDate={formatDate(selectedHackathon.startDate)}
+                  // @ts-ignore
+                  endDate={formatDate(selectedHackathon.endDate)}
+                />
+              )}
+              {selectedHackathon !== null && (
+                // @ts-ignore
+                <Events title={selectedHackathon.name} events={selectedHackathon.events} />
+              )}
+              <Leaderboard />
+            </div>
           </>
         )}
       </main>

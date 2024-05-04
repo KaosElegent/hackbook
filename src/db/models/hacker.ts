@@ -18,6 +18,7 @@ const HackerSchema = new Schema<IHacker>({
     {
       hackathon: { type: Schema.Types.ObjectId, ref: "Hackathon" },
       points: { type: Number, default: 0 },
+      itemPoints: { type: Number, default: 0 },
     },
   ],
 });

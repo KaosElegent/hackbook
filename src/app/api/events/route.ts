@@ -42,7 +42,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
     const hackathon = await Hackathon.findById(id);
 
-
     if (!hackathon) {
       return new Response("Hackathon not found", { status: 404 });
     }
@@ -50,6 +49,31 @@ export async function GET(req: NextRequest, res: NextResponse) {
     return new Response(JSON.stringify(hackathon.events), { status: 200 });
   } catch (error) {
     return new Response("Failed to get events", { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    await connectDB();
+
+    const { id, oldName, newName, location, startDate, endDate, points } =
+      await req.json();
+
+    const hackathon = await Hackathon.findById(id);
+    const event = hackathon.events.find(
+      (event: { name: any }) => event.name === oldName
+    );
+
+    event.name = newName;
+    event.location = location;
+    event.startDate = startDate;
+    event.endDate = endDate;
+    event.points = points;
+    hackathon.save();
+
+    return new Response("Event updated successfully", { status: 200 });
+  } catch (error) {
+    return new Response("Failed to update event", { status: 500 });
   }
 }
 

@@ -40,8 +40,28 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
+export async function PUT(req: NextRequest) {
+  try {
+    await connectDB();
+
+    const { id, name, location, startDate, endDate } = await req.json();
+
+    const hackathon = await Hackathon.findById(id);
+
+    hackathon.name = name;
+    hackathon.location = location;
+    hackathon.startDate = startDate;
+    hackathon.endDate = endDate;
+    hackathon.save();
+
+    return new Response("Hackathon updated successfully", { status: 200 });
+  } catch (error) {
+    return new Response("Failed to update hackathon", { status: 500 });
+  }
+}
+
 export async function GET(req: NextRequest, res: NextResponse) {
-  console.log("fetching data")
+  console.log("fetching data");
   try {
     await connectDB();
     const session: any = await getSession();
@@ -51,12 +71,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
       const userType = urlParams.get("type");
       const user: UserProfile = session.user;
 
-
       console.log(userType);
       console.log(user.email);
-      if (userType === 'organizer') {
-        const hackathons = await Hackathon.find({organizers: {$in: [user.email]}});
-      
+      if (userType === "organizer") {
+        const hackathons = await Hackathon.find({
+          organizers: { $in: [user.email] },
+        });
 
         return NextResponse.json(hackathons, { status: 200 });
       } else {

@@ -40,6 +40,7 @@ export const POST = async (req: NextRequest) => {
 };
 
 export async function GET(req: NextRequest, res: NextResponse) {
+  console.log("fetching data")
   try {
     await connectDB();
     const session:any = await getSession();
@@ -49,8 +50,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
       const userType = urlParams.get('type');
       const user:UserProfile = session.user;
 
+      console.log(userType);
+      console.log(user.email);
       if (userType === 'organizer') {
         const hackathons = await Hackathon.find({organizers: {$in: [user.email]}});
+      
         return NextResponse.json(hackathons, { status: 200 });
       }
       else{

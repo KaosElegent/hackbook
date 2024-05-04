@@ -4,18 +4,18 @@ import { NextUIProvider } from "@nextui-org/react";
 import Navbar from "@/components/Navbar";
 import Leaderboard from "@/components/Leaderboard";
 import Hackathons from "@/components/Hackathons";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5QrcodeResult, Html5QrcodeScanner } from "html5-qrcode";
 import { useEffect } from "react";
 
 export default function Qr() {
 
   useEffect(() => {
-    function onScanSuccess(decodedText, decodedResult) {
+    function onScanSuccess(decodedText:string, decodedResult:Html5QrcodeResult) {
       // handle the scanned code as you like, for example:
       console.log(`Code matched = ${decodedText}`, decodedResult);
     }
     
-    function onScanFailure(error) {
+    function onScanFailure(error:any) {
       // handle scan failure, usually better to ignore and keep scanning.
       // for example:
       console.warn(`Code scan error = ${error}`);

@@ -36,7 +36,7 @@ export const POST = async (req: NextRequest) => {
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    await connectDB();
+    //await connectDB();
 
     const { id } = await req.json();
 
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 export async function PUT(req: NextRequest) {
   try {
-    await connectDB();
+    //await connectDB();
 
     const { id, oldName, newName, location, startDate, endDate, points } =
       await req.json();
@@ -79,7 +79,7 @@ export async function PUT(req: NextRequest) {
 
 export const DELETE = async (req: NextRequest) => {
   try {
-    await connectDB();
+    //await connectDB();
 
     const { id, name } = await req.json();
 

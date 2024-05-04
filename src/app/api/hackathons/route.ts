@@ -6,7 +6,6 @@ import Organizer from "@/db/models/organizer";
 import Hacker from "@/db/models/hacker";
 import { getSession } from "@auth0/nextjs-auth0";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
-import mongoose from "mongoose";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -43,7 +42,7 @@ export const POST = async (req: NextRequest) => {
 
 export async function PUT(req: NextRequest) {
   try {
-    await connectDB();
+    //await connectDB();
 
     const { id, name, location, startDate, endDate } = await req.json();
 
@@ -72,13 +71,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
       const userType = urlParams.get("type");
       const user: UserProfile = session.user;
 
-      await mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
-      const connection = mongoose.connection;
-      console.log("Connecting to Mongo!");
-      connection.on("connected", () => {
-        console.info("MongoDB is connected 🟢");
-      });
-
       console.log(userType);
       console.log(user.email);
       if (userType === "organizer") {
@@ -103,7 +95,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    await connectDB();
+    //await connectDB();
     const { id } = await req.json();
 
     const hackathon = await Hackathon.findByIdAndDelete(id);

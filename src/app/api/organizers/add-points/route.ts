@@ -6,18 +6,18 @@ import Hackathon from "@/db/models/hackathon";
 
 export const POST = async (req: NextRequest) => {
   try {
-    await connectDB();
+    //await connectDB();
 
-    const { hackId, email, eventId } = await req.json();
+    const { id, email, name } = await req.json();
 
-    const hackathon = await Hackathon.findOne({ _id: hackId });
+    const hackathon = await Hackathon.findOne({ _id: id });
     const user = await Hacker.findOne({ email });
     const event = hackathon.events.find(
-      (event: { _id: any }) => event._id == eventId
+      (event: { name: any }) => event.name == name
     );
 
     const userHackathon = user.hackathons.find(
-      (hackathon: { hackathon: any }) => hackathon.hackathon == hackId
+      (hackathon: { hackathon: any }) => hackathon.hackathon == id
     );
 
     if (!hackathon) {

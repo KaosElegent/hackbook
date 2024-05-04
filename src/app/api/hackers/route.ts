@@ -2,13 +2,15 @@ import connectDB from "@/db/config";
 
 import { NextRequest, NextResponse } from "next/server";
 import Hacker from "@/db/models/hacker";
+import Hackathon from "@/db/models/hackathon";
+import { user } from "@nextui-org/react";
 import { getSession } from '@auth0/nextjs-auth0';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 export const POST = async (req: NextRequest) => {
   try {
-    await connectDB();
-    
+    //await connectDB();
+
     const session:any = await getSession();
 
     if(session){
@@ -42,7 +44,7 @@ export const POST = async (req: NextRequest) => {
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    await connectDB();
+    //await connectDB();
 
     const hackers = await Hacker.find({});
 
@@ -50,8 +52,38 @@ export async function GET(req: NextRequest, res: NextResponse) {
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
-};
+}
 
+export async function DELETE(req: NextRequest) {
+  try {
+    //await connectDB();
+
+    const { email, id } = await req.json();
+
+    const hacker = await Hacker.findOne({ email });
+    const hackathon = await Hackathon.findById(id);
+
+    if (!hacker) {
+      return new Response("User not found", { status: 404 });
+    }
+
+    if (!hackathon) {
+      return new Response("Hackathon not found", { status: 404 });
+    }
+
+    hackathon.hackers.splice(hackathon.hackers.indexOf(email), 1);
+    hacker.hackathons = hacker.hackathons.filter(
+      (h: { hackathon: any }) => h.hackathon != id
+    );
+
+    await hackathon.save();
+    await hacker.save();
+
+    return new Response("User deleted successfully", { status: 200 });
+  } catch (error) {
+    return new Response("Failed to delete user", { status: 500 });
+  }
+}
 
 /*
 let submission: Omit<IHacker, "code"> = {

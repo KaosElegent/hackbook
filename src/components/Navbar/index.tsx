@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
@@ -16,6 +17,8 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { usePathname } from 'next/navigation'
+var QRCode = require('qrcode');
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -25,7 +28,15 @@ export default function Navbar() {
     "Log Out",
   ];
 
+  const pathname = usePathname();
   const { user } = useUser();
+  const [src, setSrc] = useState<string>('');
+
+  useEffect(() => {
+    if(user?.email){
+      QRCode.toDataURL(user?.email || '').then(setSrc);
+    }
+  }, []);
 
   return (
     <div>
@@ -47,14 +58,17 @@ export default function Navbar() {
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="/dashboard">
-              Dashboard
+            <Link color="foreground" href="/qr">
+              Scan QR
             </Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
           <NavbarItem>
-            {user ? (
+            <img src={src} />
+          </NavbarItem>
+          <NavbarItem>
+            {user && pathname !== "/" ? (
               <Dropdown placement="bottom-start">
                 <DropdownTrigger>
                   <User
@@ -68,7 +82,11 @@ export default function Navbar() {
                     name={user.name}
                   />
                 </DropdownTrigger>
-                <DropdownMenu aria-label="User Actions" variant="flat" className="shadow-around rounded-xl">
+                <DropdownMenu
+                  aria-label="User Actions"
+                  variant="flat"
+                  className="shadow-around rounded-xl"
+                >
                   <DropdownItem key="profile" className="h-14 gap-2">
                     <p className="font-bold">Signed in as</p>
                     <p className="font-bold">@{user.nickname}</p>
@@ -84,9 +102,7 @@ export default function Navbar() {
                 </DropdownMenu>
               </Dropdown>
             ) : (
-              <Link href="/api/auth/login">
-                <Button className="dark">Sign In</Button>
-              </Link>
+              <></>
             )}
           </NavbarItem>
         </NavbarContent>

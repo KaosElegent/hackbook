@@ -1,4 +1,4 @@
-import connectDB from "@/db/config";
+import connectDB from "../config";
 
 import { NextRequest, NextResponse } from "next/server";
 

@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
-import { env } from "@/env/server.mjs";
+//import { env } from "@/env/server.mjs";
 
 export default async function connectDB() {
   try {
-    console.log(env.DATABASE_URL, env.DATABASE_NAME);
-    await mongoose.connect(env.DATABASE_URL, { dbName: env.DATABASE_NAME });
+    console.log(process.env.DATABASE_URL, process.env.DATABASE_NAME);
+    await mongoose.connect(process.env.DATABASE_URL || "", { dbName: process.env.DATABASE_NAME || "" });
     const connection = mongoose.connection;
 
     connection.on("connected", () => {

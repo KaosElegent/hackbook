@@ -1,7 +1,7 @@
 import connectDB from "@/db/config";
 
 import { NextRequest, NextResponse } from "next/server";
-import Hacker from "@/db/models/user";
+import Hacker from "@/db/models/hacker";
 import Hackathon from "@/db/models/hackathon";
 
 export const POST = async (req: NextRequest) => {

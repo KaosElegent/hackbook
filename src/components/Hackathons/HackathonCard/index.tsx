@@ -1,12 +1,20 @@
 import React from 'react'
 import { Card, CardBody } from '@nextui-org/react';
 
-export default function HackathonCard() {
+interface HackathonCardProps {
+  data: {
+    name: string;
+  }
+}
+
+const HackathonCard: React.FC<HackathonCardProps> = ({ data }) => {
   return (
     <Card isPressable fullWidth isHoverable>
       <CardBody>
-        <p>GDSC Hacks @ UofG</p>
+        <p>{data.name}</p>
       </CardBody>
     </Card>
-  )
-}
+  );
+};
+
+export default HackathonCard;

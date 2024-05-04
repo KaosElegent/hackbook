@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import HackathonCard from './HackathonCard'
+'use client'
+
+import React, { useEffect, useState } from "react";
+import HackathonCard from "./HackathonCard";
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 import { Spinner } from "@nextui-org/react";
-import { useAsyncList } from '@react-stately/data';
+import { useAsyncList } from "@react-stately/data";
 
 export default function Hackathons() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,9 +37,15 @@ export default function Hackathons() {
 
   return (
     <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2">
-      {hackathons.map((hackathon, index) => (
-        <HackathonCard key={index} data={hackathon} />
-      ))}
+      {hackathons.length > 0 ? (
+        hackathons.map((hackathon, index) => (
+          <div key={index} className="mb-2">
+            <HackathonCard key={index} data={hackathon} />
+          </div>
+        ))
+      ) : (
+        <p className="text-center flex justify-center items-center h-full">No Hackathons</p>
+      )}
     </div>
   );
 }

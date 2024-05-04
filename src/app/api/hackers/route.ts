@@ -25,7 +25,7 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-export async function GET() {
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
     await connectDB();
 

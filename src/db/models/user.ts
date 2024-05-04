@@ -1,6 +1,16 @@
 import { Schema, model, models } from "mongoose";
 
-const HackerSchema = new Schema({
+export interface IHacker {
+  firstName: string;
+  lastName: string;
+  email: string;
+  hackathons: {
+    hackathon: string;
+    points: number;
+  }[];
+}
+
+const HackerSchema = new Schema<IHacker>({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },

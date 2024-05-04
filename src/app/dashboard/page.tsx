@@ -11,7 +11,10 @@ export default function Home() {
     <NextUIProvider>
       <Navbar />
       <main>
-        <Leaderboard />
+        <div></div>
+        <div>
+          <Leaderboard />
+        </div>
       </main>
     </NextUIProvider>
   );

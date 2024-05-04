@@ -12,9 +12,11 @@ export default function Hackathons() {
   const [hackathons, setHackathons] = useState([]);
 
   const fetchHackathons = async (cursor: string) => {
+    console.log("fetching hackathons");
     try {
       const res = await fetch(cursor || "/api/hackathons?type=organizer");
       if (!res.ok) {
+        console.error("fetch dont work");
         throw new Error("Network response was not ok");
       }
       const data = await res.json();

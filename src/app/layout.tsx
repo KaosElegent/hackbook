@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark my-4">
+    <html lang="en" className="dark my-4 mx-16">
       <UserProvider>
         <body className={monty.className}>{children}</body>
       </UserProvider>

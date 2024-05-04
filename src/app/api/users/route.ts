@@ -17,7 +17,7 @@ let submission: Omit<IHacker, "code"> = {
 
 export async function POST(request: NextRequest) {
   try {
-    connectDB();
+    await connectDB();
 
     submission = await request.json();
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from "@nextui-org/react";
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const StartHere: React.FC = () => {
 
@@ -23,7 +24,7 @@ const StartHere: React.FC = () => {
             console.error('There was an error!', error);
         }
 
-        router.push('/dashboard');
+        router.push('/api/auth/login');
     }
 
     const routeOrganiser = async () => {
@@ -43,18 +44,17 @@ const StartHere: React.FC = () => {
             console.error('There was an error!', error);
         }
 
-        router.push('/dashboard');
+        router.push('/api/auth/login');
     }
-
 
     return (
             <div className=" flex flex-row space-x-4 justify-center">
-                <Button color="primary" onClick={routeHacker} >
-                    Hacker
-                </Button>
-                <Button color="secondary" onClick={routeOrganiser}>
-                    Organiser
-                </Button>
+                    <Button color="primary" onClick={routeHacker} >
+                        Hacker
+                    </Button>
+                    <Button color="secondary" onClick={routeOrganiser}>
+                        Organiser
+                    </Button>
             </div>
     );
 };

@@ -78,11 +78,7 @@ export default function Navbar() {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-            ) : (
-              <Link href="/api/auth/login">
-                <Button className="dark">Sign In</Button>
-              </Link>
-            )}
+            ) : (<></>)}
           </NavbarItem>
         </NavbarContent>
         <NavbarMenu>

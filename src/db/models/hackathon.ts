@@ -15,6 +15,7 @@ const HackathonSchema = new Schema({
     points: { type: Number, required: true },
     attendees: [{ type: String, ref: "HackerEmail" }],
   }],
+  hackString: { type: String, default:""},
 });
 
 const Hackathon = models.hackathons || model("hackathons", HackathonSchema);

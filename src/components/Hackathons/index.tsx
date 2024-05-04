@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HackathonCard from './HackathonCard'
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 import { Spinner } from "@nextui-org/react";
@@ -28,6 +28,10 @@ export default function Hackathons() {
       console.error("Error:", error);
     }
   };
+
+  useEffect(() => {
+    fetchHackathons("");
+  }, []);
 
   return (
     <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2">

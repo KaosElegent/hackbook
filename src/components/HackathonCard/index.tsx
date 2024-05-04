@@ -4,12 +4,13 @@ import { Card, CardBody } from '@nextui-org/react';
 interface HackathonCardProps {
   data: {
     name: string;
-  }
+  };
+  onCardClick: () => void;
 }
 
-const HackathonCard: React.FC<HackathonCardProps> = ({ data }) => {
+const HackathonCard: React.FC<HackathonCardProps> = ({ data, onCardClick }) => {
   return (
-    <Card isPressable fullWidth isHoverable>
+    <Card isPressable fullWidth isHoverable onPress={onCardClick}>
       <CardBody>
         <p>{data.name}</p>
       </CardBody>

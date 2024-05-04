@@ -47,7 +47,9 @@ export default function Navbar() {
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="/dashboard">Dashboard</Link>
+            <Link color="foreground" href="/dashboard">
+              Dashboard
+            </Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
@@ -70,6 +72,9 @@ export default function Navbar() {
                   <DropdownItem key="profile" className="h-14 gap-2">
                     <p className="font-bold">Signed in as</p>
                     <p className="font-bold">@{user.nickname}</p>
+                  </DropdownItem>
+                  <DropdownItem key="profile" className="h-14 gap-2">
+                    <Link href="/editing">Edit Dashboard</Link>
                   </DropdownItem>
                   <DropdownItem key="logout">
                     <Link href="/api/auth/logout">

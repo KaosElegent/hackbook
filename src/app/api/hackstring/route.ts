@@ -1,11 +1,16 @@
 
 import { NextRequest, NextResponse } from 'next/server'; 
 import { getResponse } from '../gemini';
+import connectDB from '@/db/config';
 import Hackathon from "@/db/models/hackathon";
+
+const filter = new Filter();
 
 // create new lease
 export async function PUT(req: NextRequest, res: NextResponse) {
-    try { 
+    try {
+        await connectDB();
+
         const { userInput, hackathon_id } = await req.json();
 
         const appropritateString = await getResponse(userInput);

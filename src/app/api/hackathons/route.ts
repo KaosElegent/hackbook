@@ -6,6 +6,7 @@ import Organizer from "@/db/models/organizer";
 import Hacker from "@/db/models/hacker";
 import { getSession } from "@auth0/nextjs-auth0";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
+import mongoose from "mongoose";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -70,6 +71,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
       const urlParams = new URLSearchParams(req.url.split("?")[1]);
       const userType = urlParams.get("type");
       const user: UserProfile = session.user;
+
+      await mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
+      const connection = mongoose.connection;
+      console.log("Connecting to Mongo!");
+      connection.on("connected", () => {
+        console.info("MongoDB is connected 🟢");
+      });
 
       console.log(userType);
       console.log(user.email);

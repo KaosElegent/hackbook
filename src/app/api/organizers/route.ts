@@ -7,7 +7,7 @@ import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 export const POST = async (req: NextRequest) => {
   try {
-    await connectDB();
+    //await connectDB();
     const session:any = await getSession();
     if(session){
       const user:UserProfile = session.user;

@@ -7,8 +7,8 @@ import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 export const POST = async (req: NextRequest) => {
   try {
-    await connectDB();
-    
+    //await connectDB();
+
     const session:any = await getSession();
 
     if(session){
@@ -42,7 +42,7 @@ export const POST = async (req: NextRequest) => {
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    await connectDB();
+    //await connectDB();
 
     const hackers = await Hacker.find({});
 

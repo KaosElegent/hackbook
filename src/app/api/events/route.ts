@@ -5,7 +5,7 @@ import Hackathon from "@/db/models/hackathon";
 
 export const POST = async (req: NextRequest) => {
   try {
-    await connectDB();
+    //await connectDB();
 
     const { id, name, location, startDate, endDate, points } = await req.json();
 

@@ -8,7 +8,7 @@ import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 export const POST = async (req: NextRequest) => {
   try {
-    await connectDB();
+    //await connectDB();
 
     const { email, name, location, startDate, endDate } = await req.json();
 
@@ -42,7 +42,7 @@ export const POST = async (req: NextRequest) => {
 export async function GET(req: NextRequest, res: NextResponse) {
   console.log("fetching data")
   try {
-    await connectDB();
+    //await connectDB();
     const session:any = await getSession();
 
     if(session){

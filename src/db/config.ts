@@ -7,7 +7,7 @@ export default async function connectDB() {
     console.log(process.env.DATABASE_URL, process.env.DATABASE_NAME);
     await mongoose.connect(process.env.DATABASE_URL || "", { dbName: process.env.DATABASE_NAME || "" });
     const connection = mongoose.connection;
-
+    console.log("COnencting to Mongo!");
     connection.on("connected", () => {
       console.info("MongoDB is connected 🟢");
     });

@@ -14,10 +14,12 @@ const StartHere: React.FC = () => {
 
     const routeOrganizer = async () => {
         localStorage.setItem('userType', 'organizer')
+        await fetch("/api/connectMongo");
         router.push('/api/auth/login');
     }
     const routeHacker = async () => {
         localStorage.setItem('userType', 'hacker')
+        await fetch("/api/connectMongo");
         router.push('/api/auth/login');
     }
 

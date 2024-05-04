@@ -7,7 +7,7 @@ import Hackathon from "@/db/models/hackathon";
 // create new lease
 export async function PUT(req: NextRequest, res: NextResponse) {
     try {
-        await connectDB();
+        //await connectDB();
 
         const { userInput, hackathon_id } = await req.json();
 

@@ -16,6 +16,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -26,6 +27,7 @@ export default function Navbar() {
   ];
 
   const { user } = useUser();
+  const pathname = usePathname();
 
   return (
     <div>
@@ -52,7 +54,7 @@ export default function Navbar() {
         </NavbarContent>
         <NavbarContent justify="end">
           <NavbarItem>
-            {user ? (
+            {user && pathname!=='/' ? (
               <Dropdown placement="bottom-start">
                 <DropdownTrigger>
                   <User

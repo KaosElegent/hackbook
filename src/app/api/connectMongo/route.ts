@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    console.log(process.env.MONGODB_URI, process.env.DATABASE_NAME);
+    
     await mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
     const connection = mongoose.connection;
     console.log("Connecting to Mongo!");

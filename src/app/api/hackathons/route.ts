@@ -6,6 +6,8 @@ import Organizer from "@/db/models/organizer";
 import Hacker from "@/db/models/hacker";
 import { getSession } from "@auth0/nextjs-auth0";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
+import mongoose from "mongoose";
+mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
 
 export const POST = async (req: NextRequest) => {
   try {

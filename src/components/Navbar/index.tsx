@@ -18,7 +18,8 @@ import {
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { usePathname } from 'next/navigation'
-var QRCode = require('qrcode');
+// var QRCode = require('qrcode');
+import QRCode from 'qrcode';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);

@@ -8,20 +8,7 @@ import { UserProfile } from '@auth0/nextjs-auth0/client';
 export const POST = async (req: NextRequest) => {
   try {
     await connectDB();
-    /*
-    const { firstName, lastName, email } = await req.json();
-
-    const hacker = new Hacker({
-      firstName,
-      lastName,
-      email,
-      hackathons: [],
-    });
-
-    await hacker.save();
-
-    return new Response("User created successfully", { status: 200 });
-    */
+    
     const session:any = await getSession();
 
     if(session){
@@ -31,14 +18,14 @@ export const POST = async (req: NextRequest) => {
 
       if(hackerAcc.length === 0){
         const hacker = new Hacker({
-          firstName,
-          lastName,
-          email,
+          name: user.name,
+          email: user.email,
+          discordName: "",
           hackathons: [],
         });
     
         await hacker.save();
-          return NextResponse.json({ success:"New hacker was saved" }, { status: 200 })
+        return NextResponse.json({ success:"New hacker was saved" }, { status: 200 })
       }
       else{
         return NextResponse.json({ success:"Hacker already exists" }, { status: 200 })

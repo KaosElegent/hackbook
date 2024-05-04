@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
@@ -16,6 +17,8 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { usePathname } from 'next/navigation'
+var QRCode = require('qrcode');
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -26,6 +29,9 @@ export default function Navbar() {
   ];
 
   const { user } = useUser();
+  const [src, setSrc] = useState<string>('');
+  QRCode.toDataURL(user?.email || '').then(setSrc);
+  const pathname = usePathname();
 
   return (
     <div>
@@ -42,17 +48,20 @@ export default function Navbar() {
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem isActive>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/">
               Home
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="#">Dashboard</Link>
+            <Link color="foreground" href="/qr">Scan QR</Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
           <NavbarItem>
-            {user ? (
+            <img src={src} />
+          </NavbarItem>
+          <NavbarItem>
+            {user && pathname!=='/' ? (
               <Dropdown placement="bottom-start">
                 <DropdownTrigger>
                   <User
@@ -78,11 +87,7 @@ export default function Navbar() {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-            ) : (
-              <Link href="/api/auth/login">
-                <Button className="dark">Sign In</Button>
-              </Link>
-            )}
+            ) : (<></>)}
           </NavbarItem>
         </NavbarContent>
         <NavbarMenu>

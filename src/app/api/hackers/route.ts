@@ -4,23 +4,38 @@ import { NextRequest, NextResponse } from "next/server";
 import Hacker from "@/db/models/hacker";
 import Hackathon from "@/db/models/hackathon";
 import { user } from "@nextui-org/react";
+import { getSession } from '@auth0/nextjs-auth0';
+import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 export const POST = async (req: NextRequest) => {
   try {
     await connectDB();
+    
+    const session:any = await getSession();
 
-    const { firstName, lastName, email } = await req.json();
+    if(session){
+      const user:UserProfile = session.user;
 
-    const hacker = new Hacker({
-      firstName,
-      lastName,
-      email,
-      hackathons: [],
-    });
+      let hackerAcc = await Hacker.find({ email: user.email }).exec();
 
-    await hacker.save();
-
-    return new Response("User created successfully", { status: 200 });
+      if(hackerAcc.length === 0){
+        const hacker = new Hacker({
+          name: user.name,
+          email: user.email,
+          discordName: "",
+          hackathons: [],
+        });
+    
+        await hacker.save();
+        return NextResponse.json({ success:"New hacker was saved" }, { status: 200 })
+      }
+      else{
+        return NextResponse.json({ success:"Hacker already exists" }, { status: 200 })
+      }
+      
+    }else{
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
   } catch (error) {
     console.log(error);
     return new Response("Failed to create user", { status: 500 });

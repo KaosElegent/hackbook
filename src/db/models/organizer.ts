@@ -1,8 +1,8 @@
 import { Schema, model, models } from "mongoose";
 
 const OrganizerSchema = new Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  name: { type: String, required: true},
+  discordName: { type: String },
   email: { type: String, required: true, unique: true },
   hackathons: [{ type: Schema.Types.ObjectId, ref: "Hackathon" }],
 });

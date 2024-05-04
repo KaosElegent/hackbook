@@ -2,11 +2,13 @@ import connectDB from "@/db/config";
 
 import { NextRequest, NextResponse } from "next/server";
 import Hacker from "@/db/models/hacker";
+import { getSession } from '@auth0/nextjs-auth0';
+import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 export const POST = async (req: NextRequest) => {
   try {
     await connectDB();
-
+    /*
     const { firstName, lastName, email } = await req.json();
 
     const hacker = new Hacker({
@@ -19,6 +21,32 @@ export const POST = async (req: NextRequest) => {
     await hacker.save();
 
     return new Response("User created successfully", { status: 200 });
+    */
+    const session:any = await getSession();
+
+    if(session){
+      const user:UserProfile = session.user;
+
+      let hackerAcc = await Hacker.find({ email: user.email }).exec();
+
+      if(hackerAcc.length === 0){
+        const hacker = new Hacker({
+          firstName,
+          lastName,
+          email,
+          hackathons: [],
+        });
+    
+        await hacker.save();
+          return NextResponse.json({ success:"New hacker was saved" }, { status: 200 })
+      }
+      else{
+        return NextResponse.json({ success:"Hacker already exists" }, { status: 200 })
+      }
+      
+    }else{
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
   } catch (error) {
     console.log(error);
     return new Response("Failed to create user", { status: 500 });

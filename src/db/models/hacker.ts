@@ -1,8 +1,8 @@
 import { Schema, model, models } from "mongoose";
 
 export interface IHacker {
-  firstName: string;
-  lastName: string;
+  name: string;
+  discordName: { type: String };
   email: string;
   hackathons: {
     hackathon: string;
@@ -11,8 +11,8 @@ export interface IHacker {
 }
 
 const HackerSchema = new Schema<IHacker>({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  name: { type: String, required: true },
+  discordName: { type: String },
   email: { type: String, required: true, unique: true },
   hackathons: [
     {

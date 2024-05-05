@@ -34,10 +34,25 @@ export default function Editing() {
   const [selectedHackathon, setSelectedHackathon] = React.useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useUser();
+  const [points, setPoints] = useState(0);
 
   const handleOpen = () => {
     onOpen();
   };
+
+  const fetchPoints = async () => {
+    try {
+      const res = await fetch(`/api/points?id=${selectedHackathon._id || ""}`);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      console.log(data);
+      setPoints(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   const addHackathon = async () => {
     const name = document.getElementById("name") as HTMLInputElement;
@@ -98,9 +113,8 @@ export default function Editing() {
   const handleCardClick = (hackathon: any) => {
     setSelectedHackathon(hackathon);
     console.log(hackathon._id);
-    if (hackathon !== null) {
-      localStorage.setItem("selectedHackathonId", hackathon._id);
-    }
+    localStorage.setItem("selectedHackathonId", hackathon._id);
+      fetchPoints();
   };
 
   const formatDate = (dateString: string) => {
@@ -164,6 +178,12 @@ export default function Editing() {
                 startDate={formatDate(selectedHackathon.startDate)}
                 // @ts-ignore
                 endDate={formatDate(selectedHackathon.endDate)}
+                // @ts-ignore
+                points={points}
+                // @ts-ignore
+                role={localStorage.getItem("userType")}
+                // @ts-ignore
+                id={localStorage.getItem("selectedHackathonId")}
               />
             )}
             {selectedHackathon !== null && (

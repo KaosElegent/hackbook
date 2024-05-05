@@ -17,6 +17,21 @@ export default function Dashboard() {
   const [hasMore, setHasMore] = useState(false);
   const [hackathons, setHackathons] = useState([]);
   const [selectedHackathon, setSelectedHackathon] = React.useState(null);
+  const [points, setPoints] = useState(0);
+
+  const fetchPoints = async () => {
+    try {
+      const res = await fetch(`/api/points?id=${selectedHackathon._id || ""}`);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      console.log(data);
+      setPoints(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   const fetchHackathons = async (cursor: string) => {
     setIsLoading(true);
@@ -51,8 +66,8 @@ export default function Dashboard() {
   const handleCardClick = (hackathon: any) => {
     setSelectedHackathon(hackathon);
     console.log(hackathon._id)
-    sessionStorage.setItem("selectedHackathonId", hackathon._id);
-    
+    localStorage.setItem("selectedHackathonId", hackathon._id);
+    fetchPoints();
   };
 
   const formatDate = (dateString: string) => {
@@ -106,6 +121,12 @@ export default function Dashboard() {
                 startDate={formatDate(selectedHackathon.startDate)}
                 // @ts-ignore
                 endDate={formatDate(selectedHackathon.endDate)}
+                // @ts-ignore
+                points={points}
+                // @ts-ignore
+                role={localStorage.getItem("userType")}
+                // @ts-ignore
+                id={localStorage.getItem("selectedHackathonId")}
               />
             )}
             {selectedHackathon !== null && (

@@ -27,6 +27,9 @@ interface TitleProps {
   location: string;
   startDate: string;
   endDate: string;
+  points: number;
+  role: string;
+  id: string;
 }
 
 export default function Title({
@@ -34,6 +37,9 @@ export default function Title({
   location,
   startDate,
   endDate,
+  points,
+  role,
+  id,
 }: TitleProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -50,7 +56,7 @@ export default function Title({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: localStorage.getItem("selectedHackathonId"),
+        id: id,
         email: email.value,
       }),
     });
@@ -65,7 +71,7 @@ export default function Title({
       <div className="pb-3">
         <Card>
           <CardBody className="text-center text-2xl text-transparent bg-gradient-to-tr from-yellow-400 to-purple-600 font-bold bg-clip-text">
-            {title}
+            {role === "hacker" ? `${title} [ Points - ${points} ]` : `${title}`}
           </CardBody>
         </Card>
       </div>

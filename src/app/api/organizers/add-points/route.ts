@@ -41,8 +41,8 @@ export const POST = async (req: NextRequest) => {
       });
     }
     event.attendees.push(email);
-    userHackathon.points += event.points;
-    userHackathon.itemPoints += event.points;
+    userHackathon.points += event.points/2;
+    userHackathon.itemPoints += event.points/2;
 
     await user.save();
     await hackathon.save();

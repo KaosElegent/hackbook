@@ -7,9 +7,7 @@ import Hacker from "@/db/models/hacker";
 import { getSession } from "@auth0/nextjs-auth0";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import mongoose from "mongoose";
-mongoose.connect(process.env.MONGODB_URI || "", {
-  dbName: process.env.DATABASE_NAME || "",
-});
+mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -25,21 +23,17 @@ export const POST = async (req: NextRequest) => {
       organizers: [email],
       hackers: [],
       events: [],
-      shop: [],
     });
 
     const savedHackathon = await hackathon.save();
     const hackathonId = savedHackathon._id;
 
     const organizer = await Organizer.findOne({ email });
-    console.log(organizer);
-    // if (!organizer) {
-    //   return new Response("Organizer not found", { status: 404 });
-    // }
+    if (!organizer) {
+      return new Response("Organizer not found", { status: 404 });
+    }
 
     organizer.hackathons.push(hackathonId);
-    console.log(organizer);
-
     await organizer.save();
 
     return new Response("Hackathon created successfully", { status: 200 });
@@ -72,7 +66,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   console.log("fetching data");
   try {
     //await connectDB();
-    const session: any = await getSession();
+    const session:any = await getSession();
 
     if (session) {
       const urlParams = new URLSearchParams(req.url.split("?")[1]);

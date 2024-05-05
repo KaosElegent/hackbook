@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
 
     // Add logic here to associate the user with the hackathon
 
-    user.hackathons.push({ hackathon: id, points: 0 });
+    user.hackathons.push({ hackathon: id, points: 0, itemPoints: 0 });
     hackathon.hackers.push(email);
 
     await user.save();

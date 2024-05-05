@@ -16,20 +16,23 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [hackathons, setHackathons] = useState([]);
-  const [selectedHackathon, setSelectedHackathon] = React.useState(null);
+  const [selectedHackathon, setSelectedHackathon] = React.useState();
   const [points, setPoints] = useState(0);
 
   const fetchPoints = async () => {
-    try {
-      const res = await fetch(`/api/points?id=${selectedHackathon._id || ""}`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
+    if(selectedHackathon){
+      try {
+        // @ts-ignore
+        const res = await fetch(`/api/points?id=${selectedHackathon._id || ""}`);
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        console.log(data);
+        setPoints(data);
+      } catch (error) {
+        console.error("Error:", error);
       }
-      const data = await res.json();
-      console.log(data);
-      setPoints(data);
-    } catch (error) {
-      console.error("Error:", error);
     }
   }
 
@@ -63,11 +66,11 @@ export default function Dashboard() {
     fetchHackathons("");
   }, []);
 
-  const handleCardClick = (hackathon: any) => {
+  const handleCardClick = async (hackathon: any) => {
+    fetchPoints();
     setSelectedHackathon(hackathon);
     console.log(hackathon._id)
     localStorage.setItem("selectedHackathonId", hackathon._id);
-    fetchPoints();
   };
 
   const formatDate = (dateString: string) => {
@@ -111,34 +114,34 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
-            {selectedHackathon !== null && (
+            {selectedHackathon && (
               <Title
                 // @ts-ignore
-                title={selectedHackathon.name}
+                title={selectedHackathon.name || ""}
                 // @ts-ignore
-                location={selectedHackathon.location}
+                location={selectedHackathon.location || ""}
                 // @ts-ignore
-                startDate={formatDate(selectedHackathon.startDate)}
+                startDate={formatDate(selectedHackathon.startDate || "")}
                 // @ts-ignore
-                endDate={formatDate(selectedHackathon.endDate)}
+                endDate={formatDate(selectedHackathon.endDate || "")}
                 // @ts-ignore
                 points={points}
                 // @ts-ignore
-                role={localStorage.getItem("userType")}
+                role={localStorage.getItem("userType") || ""}
                 // @ts-ignore
-                id={localStorage.getItem("selectedHackathonId")}
+                id={localStorage.getItem("selectedHackathonId") || ""}
               />
             )}
-            {selectedHackathon !== null && (
+            {selectedHackathon && (
               <Events
                 // @ts-ignore
-                title={selectedHackathon.name}
+                title={selectedHackathon.name || ""}
                 // @ts-ignore
-                events={selectedHackathon.events}
+                events={selectedHackathon.events || ""}
                 // @ts-ignore
                 refreshFunction={fetchHackathons}
                 // @ts-ignore
-                hackathonID={selectedHackathon._id}
+                hackathonID={selectedHackathon._id || ""}
               />
             )}
             <Leaderboard />

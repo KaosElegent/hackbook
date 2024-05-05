@@ -23,9 +23,7 @@ export default function Dashboard() {
     if (selectedHackathon) {
       try {
         // @ts-ignore
-        const res = await fetch(
-          `/api/points?id=${selectedHackathon._id || ""}`
-        );
+        const res = await fetch(`/api/points?id=${selectedHackathon._id || ""}`);
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }

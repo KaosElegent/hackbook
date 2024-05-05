@@ -24,6 +24,7 @@ interface Event {
   startDate: Date;
   endDate: Date;
   location: string;
+  description: string;
   points: number;
   attendees: string[];
 }
@@ -34,6 +35,7 @@ export default function EventCard({
   startDate,
   endDate,
   location,
+  description,
   points,
   attendees,
 }: Event) {
@@ -147,9 +149,21 @@ export default function EventCard({
                     </div>
                   </CardBody>
                 </Card>
+                <Card isPressable>
+                  <CardBody>
+                    <div className="flex">
+                      {description ? description : "No description"}
+                    </div>
+                  </CardBody>
+                </Card>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={scanQR} isDisabled={userType !== "organizer"}>
+                <Button
+                  color="danger"
+                  variant="light"
+                  onPress={scanQR}
+                  isDisabled={userType !== "organizer"}
+                >
                   Scan Hacker QR
                 </Button>
                 <Button color="danger" variant="light" onPress={onClose}>

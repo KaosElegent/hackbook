@@ -28,6 +28,7 @@ interface Event {
   startDate: Date;
   endDate: Date;
   location: string;
+  description: string;
   points: number;
   attendees: string[];
 }
@@ -168,12 +169,14 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
                     type="text"
                     label="Name"
                     placeholder="enter your event name"
+                    isRequired
                   />
                   <Input
                     id="location"
                     type="text"
                     label="Location"
                     placeholder="enter event location"
+                    isRequired
                   />
                   <DatePicker
                     id="sdate"
@@ -183,6 +186,7 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
                     showMonthAndYearPickers
                     defaultValue={now(getLocalTimeZone())}
                     onChange={(date) => setStartDate(date.toDate())} // Convert 'ZonedDateTime' to 'Date'
+                    isRequired
                   />
                   <DatePicker
                     id="edate"
@@ -192,12 +196,14 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
                     showMonthAndYearPickers
                     defaultValue={now(getLocalTimeZone())}
                     onChange={(date) => setEndDate(date.toDate())} // Convert 'ZonedDateTime' to 'Date'
+                    isRequired
                   />
                   <Input
                     id="points"
                     type="number"
                     label="Points"
                     defaultValue="0"
+                    isRequired
                   />
                   <Textarea
                     id="description"

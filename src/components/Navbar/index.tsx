@@ -61,18 +61,27 @@ export default function Navbar() {
             className="sm:hidden"
           />
           <NavbarBrand>
-            <Image src={logo} alt="logo" height={50} width={50} className="rounded-lg" />
+            <Image
+              src={logo}
+              alt="logo"
+              height={50}
+              width={50}
+              className="rounded-lg"
+            />{" "}
+            <span className="px-4 text-lg font-bold">{"HackBook"}</span>
           </NavbarBrand>
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          <NavbarItem isActive>
-            <Link color="foreground" href="/dashboard">
-              <Button className="bg-gradient-to-tr from-yellow-700 to-purple-700 shadow-around">
-                <span className="text-lg font-bold">Dashboard</span>
-              </Button>
-            </Link>
-          </NavbarItem>
+          {user && (
+            <NavbarItem isActive>
+              <Link color="foreground" href="/dashboard">
+                <Button className="bg-gradient-to-tr from-yellow-700 to-purple-700 shadow-around">
+                  <span className="text-lg font-bold">Dashboard</span>
+                </Button>
+              </Link>
+            </NavbarItem>
+          )}
           {user &&
             (userType === "organizer" ? (
               <NavbarItem>
@@ -124,7 +133,9 @@ export default function Navbar() {
                   </DropdownItem>
                   <DropdownItem key="logout">
                     <Link href="/api/auth/logout">
-                      <Button color="danger">Log Out</Button>
+                      <Button color="danger" variant="light">
+                        Log Out
+                      </Button>
                     </Link>
                   </DropdownItem>
                 </DropdownMenu>

@@ -42,13 +42,16 @@ export default function Editing() {
 
   const fetchPoints = async () => {
     try {
-      const res = await fetch(`/api/points?id=${selectedHackathon._id || ""}`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
+      if (selectedHackathon) {
+        // @ts-ignore
+        const res = await fetch(`/api/points?id=${selectedHackathon._id}`);
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        console.log(data);
+        setPoints(data);
       }
-      const data = await res.json();
-      console.log(data);
-      setPoints(data);
     } catch (error) {
       console.error("Error:", error);
     }

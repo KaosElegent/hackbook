@@ -1,34 +1,39 @@
 import { Html5QrcodeResult, Html5QrcodeScanner } from "html5-qrcode";
 import { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
-export default function Scanner() {
+interface ScannerProps {
+    id: string;
+    name: string;
+}
+
+export default function Scanner({id, name}: ScannerProps) {
   const [scanResult, setScanResult] = useState<string>('');
-  const hackathonId = '663647082d5a5b43774bb3e3';
-  const eventName = 'Coding Challenge';
-  const router = useRouter();
+  const [hackathonID, setHackathonID] = useState<string>('');
+  const [eventName, setEventName] = useState<string>('');
 
   const verifyEmail = async (email:string) => {
+    console.log("Here are the details: ", id, email, name)
     const response = await fetch("/api/organizers/add-points", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: hackathonId,
+        id: id,
         email: email,
-        name: eventName,
+        name: name,
       }),
     });
     if (!response.ok) {
         setScanResult(`Error adding points to the user`);
         setTimeout(() => {
-            router.refresh();
+            redirect('/qr');
         }, 3000);
     }
     setScanResult("Successfully Reedemed Points!");
     setTimeout(() => {
-        router.back();
+        redirect('/dashboard')
     }, 3000);
   }
 
@@ -52,6 +57,7 @@ export default function Scanner() {
     }
 
     useEffect(() => {
+
     const scanner = new Html5QrcodeScanner('reader', {
     qrbox: {
       width: 250,

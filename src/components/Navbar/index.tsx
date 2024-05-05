@@ -1,5 +1,4 @@
 'use client'
-
 import React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -25,10 +24,11 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { usePathname } from "next/navigation";
+import { usePathname } from 'next/navigation'
+import logo from "@/public/logo.svg";
+import Image from "next/image";
 // var QRCode = require('qrcode');
 import QRCode from "qrcode";
-import Image from "next/image";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -61,15 +61,15 @@ export default function Navbar() {
             className="sm:hidden"
           />
           <NavbarBrand>
-            <p className="font-bold text-inherit">HackBook</p>
+            <Image src={logo} alt="logo" height={50} width={50} />
           </NavbarBrand>
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem isActive>
-            <Link color="foreground" href="/">
+            <Link color="foreground" href="/dashboard">
               <Button className="bg-gradient-to-tr from-yellow-700 to-purple-700 shadow-around">
-                <span className="text-lg font-bold">Home</span>
+                <span className="text-lg font-bold">Dashboard</span>
               </Button>
             </Link>
           </NavbarItem>

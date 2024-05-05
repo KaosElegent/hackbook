@@ -174,6 +174,8 @@ export default function Editing() {
                 events={selectedHackathon.events}
                 // @ts-ignore
                 refreshFunction={fetchHackathons}
+                // @ts-ignore
+                hackathonID={selectedHackathon._id}
               />
             )}
             <Leaderboard />

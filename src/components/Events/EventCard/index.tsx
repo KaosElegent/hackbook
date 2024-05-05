@@ -15,8 +15,10 @@ import Image from "next/image";
 import locationIcon from "@/public/Icons/location.svg";
 import pointsIcon from "@/public/Icons/points.svg";
 import personIcon from "@/public/Icons/person.svg";
+import { useRouter } from "next/navigation";
 
 interface Event {
+  hackathonID: string;
   name: string;
   startDate: Date;
   endDate: Date;
@@ -26,6 +28,7 @@ interface Event {
 }
 
 export default function EventCard({
+  hackathonID,
   name,
   startDate,
   endDate,
@@ -33,6 +36,7 @@ export default function EventCard({
   points,
   attendees,
 }: Event) {
+  const router = useRouter();
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -56,8 +60,15 @@ export default function EventCard({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleOpen = () => {
+    localStorage.setItem("selectedEventName", name);
+    console.log(name)
     onOpen();
   };
+
+  const scanQR = async () => {
+    onClose();
+    router.push(`/qr?id=${hackathonID}?event=${name}`);
+  }
   
   return (
     <div className="pt-3 px-2">
@@ -133,6 +144,9 @@ export default function EventCard({
                 </Card>
               </ModalBody>
               <ModalFooter>
+                <Button color="danger" variant="light" onPress={scanQR}>
+                  Scan Hacker QR
+                </Button>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>

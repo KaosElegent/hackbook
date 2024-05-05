@@ -72,6 +72,7 @@ export async function PUT(req: NextRequest) {
     event.description = description;
     event.startDate = startDate;
     event.endDate = endDate;
+    event.endDate = endDate;
     event.points = points;
     hackathon.save();
 

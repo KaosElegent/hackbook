@@ -51,9 +51,8 @@ export default function Dashboard() {
   const handleCardClick = (hackathon: any) => {
     setSelectedHackathon(hackathon);
     console.log(hackathon._id)
-    if (hackathon !== null) {
-      localStorage.setItem("selectedHackathonId", hackathon._id);
-    }
+    sessionStorage.setItem("selectedHackathonId", hackathon._id);
+    
   };
 
   const formatDate = (dateString: string) => {
@@ -117,6 +116,8 @@ export default function Dashboard() {
                 events={selectedHackathon.events}
                 // @ts-ignore
                 refreshFunction={fetchHackathons}
+                // @ts-ignore
+                hackathonID={selectedHackathon._id}
               />
             )}
             <Leaderboard />

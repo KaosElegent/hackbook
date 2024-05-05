@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -24,7 +24,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 import logo from "@/public/logo.svg";
 import Image from "next/image";
 // var QRCode = require('qrcode');
@@ -33,7 +33,7 @@ import QRCode from "qrcode";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [userType, setUserType] = useState<string>("");
-  const menuItems = ["Home", "Profile", "Log Out"];
+  const menuItems = ["Home", "Show QR"];
 
   const pathname = usePathname();
   const { user } = useUser();
@@ -125,11 +125,15 @@ export default function Navbar() {
                   className="shadow-around rounded-xl"
                 >
                   <DropdownItem key="profile" className="h-14 gap-2">
-                    <p className="font-bold">Signed in as</p>
+                    <p className="font-bold">
+                      Signed in as {localStorage.getItem("userType")}
+                    </p>
                     <p className="font-bold">@{user.nickname}</p>
                   </DropdownItem>
                   <DropdownItem key="profile" className="h-14 gap-2">
-                    <Link href="/editing">Edit Dashboard</Link>
+                    <Link href="/shop">
+                      <Button>Shop</Button>
+                    </Link>
                   </DropdownItem>
                   <DropdownItem key="logout">
                     <Link href="/api/auth/logout">
@@ -146,23 +150,24 @@ export default function Navbar() {
           </NavbarItem>
         </NavbarContent>
         <NavbarMenu>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === menuItems.length - 1
-                    ? "danger"
-                    : "foreground"
-                }
-                className="w-full"
-                href="#"
-              >
-                {item}
-              </Link>
-            </NavbarMenuItem>
-          ))}
+          <NavbarMenuItem>
+            <Link className="w-full" href="/">
+              Home
+            </Link>
+          </NavbarMenuItem>
+
+          {user &&
+            (userType === "organizer" ? (
+              <NavbarMenuItem>
+                <Link color="w-full" href="/qr">
+                  Scan QR
+                </Link>
+              </NavbarMenuItem>
+            ) : (
+              <NavbarMenuItem onClick={() => handleOpen()}>
+                Show QR
+              </NavbarMenuItem>
+            ))}
         </NavbarMenu>
       </NextUINavbar>
       <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>

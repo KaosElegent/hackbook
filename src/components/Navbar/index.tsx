@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -13,31 +15,42 @@ import {
   DropdownItem,
   DropdownTrigger,
   User,
-  DropdownMenu
+  DropdownMenu,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 // var QRCode = require('qrcode');
-import QRCode from 'qrcode';
+import QRCode from "qrcode";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const menuItems = [
-    "Home",
-    "Profile",
-    "Log Out",
-  ];
+  const menuItems = ["Home", "Profile", "Log Out"];
 
   const pathname = usePathname();
   const { user } = useUser();
-  const [src, setSrc] = useState<string>('');
+  const [src, setSrc] = useState<string>("");
 
   useEffect(() => {
-    if(user?.email){
-      QRCode.toDataURL(user?.email || '').then(setSrc);
+    if (user?.email) {
+      QRCode.toDataURL(user?.email || "").then(setSrc);
     }
-  }, []);
+  }, [user?.email]);
+
+  const userType = localStorage.getItem("userType");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleOpen = () => {
+    onOpen();
+  };
 
   return (
     <div>
@@ -55,19 +68,33 @@ export default function Navbar() {
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem isActive>
             <Link color="foreground" href="/">
-              Home
+              <Button className="bg-gradient-to-tr from-yellow-700 to-purple-700 shadow-around">
+                <span className="text-lg font-bold">Home</span>
+              </Button>
             </Link>
           </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="/qr">
-              Scan QR
-            </Link>
-          </NavbarItem>
+          {user &&
+            (userType === "organizer" ? (
+              <NavbarItem>
+                <Link color="foreground" href="/qr">
+                  <Button color="default" className="shadow-around">
+                    Scan QR
+                  </Button>
+                </Link>
+              </NavbarItem>
+            ) : (
+              <NavbarItem>
+                <Button
+                  color="default"
+                  className="shadow-around"
+                  onPress={() => handleOpen()}
+                >
+                  Show QR
+                </Button>
+              </NavbarItem>
+            ))}
         </NavbarContent>
         <NavbarContent justify="end">
-          <NavbarItem>
-            <img src={src} />
-          </NavbarItem>
           <NavbarItem>
             {user && pathname !== "/" ? (
               <Dropdown placement="bottom-start">
@@ -127,6 +154,21 @@ export default function Navbar() {
           ))}
         </NavbarMenu>
       </NextUINavbar>
+      <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader></ModalHeader>
+              <ModalBody>
+                {src && (
+                  <Image src={src} alt="qr code" height={300} width={300} />
+                )}
+              </ModalBody>
+              <ModalFooter></ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

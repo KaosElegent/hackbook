@@ -1,7 +1,23 @@
 import React, { useState } from 'react'
-import { Card, CardBody, CardFooter, Divider, Input } from '@nextui-org/react';
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Divider,
+  Input,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Textarea,
+  useDisclosure,
+} from "@nextui-org/react";
 import { SearchIcon } from './SearchIcon';
 import EventCard from './EventCard';
+import addIcon from "@/public/Icons/add.svg";
+import Image from 'next/image';
 
 interface Event {
   name: string;
@@ -23,6 +39,12 @@ export default function Events({ title, events }: EventsProps) {
   const filteredEvents = events.filter((event) =>
     event.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleOpen = () => {
+    onOpen();
+  };
 
   return (
     <div className="border-2 border-[#27272a] rounded-[15px] p-2">
@@ -72,6 +94,16 @@ export default function Events({ title, events }: EventsProps) {
         </CardFooter>
       </Card>
       <div className="flex items-center">
+        <Card
+          className="mt-3"
+          isPressable
+          isHoverable
+          onPress={() => handleOpen()}
+        >
+          <CardBody>
+            <Image src={addIcon} alt="add icon" height={20} width={20} />
+          </CardBody>
+        </Card>
         {filteredEvents
           .sort(
             (a, b) =>
@@ -81,6 +113,43 @@ export default function Events({ title, events }: EventsProps) {
             <EventCard key={index} {...event} />
           ))}
       </div>
+      <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Add Event
+              </ModalHeader>
+              <ModalBody>
+                <div className="flex flex-col gap-2">
+                  <Input
+                    type="text"
+                    label="Name"
+                    placeholder="enter your hackathon name"
+                  />
+                  <Input
+                    type="text"
+                    label="Location"
+                    placeholder="enter hackathon location"
+                  />
+                  <Input type="date" label="Start Date" />
+                  <Input type="date" label="End Date" />
+                  <Input type="number" label="Points" defaultValue='0' />
+                  <Textarea label="Description" placeholder="enter event description" />
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Delete
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  Add
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

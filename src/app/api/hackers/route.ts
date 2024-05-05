@@ -4,36 +4,40 @@ import { NextRequest, NextResponse } from "next/server";
 import Hacker from "@/db/models/hacker";
 import Hackathon from "@/db/models/hackathon";
 import { user } from "@nextui-org/react";
-import { getSession } from '@auth0/nextjs-auth0';
-import { UserProfile } from '@auth0/nextjs-auth0/client';
+import { getSession } from "@auth0/nextjs-auth0";
+import { UserProfile } from "@auth0/nextjs-auth0/client";
 
 export const POST = async (req: NextRequest) => {
   try {
     //await connectDB();
 
-    const session:any = await getSession();
+    const session: any = await getSession();
 
-    if(session){
-      const user:UserProfile = session.user;
+    if (session) {
+      const user: UserProfile = session.user;
 
       let hackerAcc = await Hacker.find({ email: user.email }).exec();
 
-      if(hackerAcc.length === 0){
+      if (hackerAcc.length === 0) {
         const hacker = new Hacker({
           name: user.name,
           email: user.email,
           discordName: "",
           hackathons: [],
         });
-    
+
         await hacker.save();
-        return NextResponse.json({ success:"New hacker was saved" }, { status: 200 })
+        return NextResponse.json(
+          { success: "New hacker was saved" },
+          { status: 200 }
+        );
+      } else {
+        return NextResponse.json(
+          { success: "Hacker already exists" },
+          { status: 200 }
+        );
       }
-      else{
-        return NextResponse.json({ success:"Hacker already exists" }, { status: 200 })
-      }
-      
-    }else{
+    } else {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
   } catch (error) {
@@ -45,8 +49,11 @@ export const POST = async (req: NextRequest) => {
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
     //await connectDB();
-
-    const hackers = await Hacker.find({});
+    const urlParams = new URLSearchParams(req.url.split("?")[1]);
+    const hackID = urlParams.get("id");
+    const hackers = await Hacker.find({
+      hackathons: { $elemMatch: { hackathon: hackID } },
+    });
 
     return NextResponse.json(hackers, { status: 200 });
   } catch (error: any) {

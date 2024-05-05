@@ -7,6 +7,7 @@ export interface IHacker {
   hackathons: {
     hackathon: string;
     points: number;
+    itemPoints: number;
   }[];
 }
 

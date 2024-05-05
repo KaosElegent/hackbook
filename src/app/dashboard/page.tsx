@@ -48,8 +48,12 @@ export default function Dashboard() {
     fetchHackathons("");
   }, []);
 
-  const handleCardClick = (hackathon: React.SetStateAction<null>) => {
+  const handleCardClick = (hackathon: any) => {
     setSelectedHackathon(hackathon);
+    console.log(hackathon._id)
+    if (hackathon !== null) {
+      localStorage.setItem("selectedHackathonId", hackathon._id);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -65,46 +69,56 @@ export default function Dashboard() {
       <Navbar />
       <main className="grid grid-cols-4 gap-4 mt-8">
         {isLoading ? (
-          <Spinner color="default" />
+          <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around flex items-center justify-center">
+            <Spinner color="default" />
+          </div>
         ) : (
-          <>
-            <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around">
-              {hackathons.length > 0 ? (
-                hackathons.map((hackathon, index) => (
-                  <div key={index} className="mb-2">
-                    <HackathonCard
-                      key={index}
-                      data={hackathon}
-                      onCardClick={() => handleCardClick(hackathon)}
-                    />
-                  </div>
-                ))
-              ) : (
-                <p className="text-center flex justify-center items-center h-full">
-                  No Hackathons
-                </p>
-              )}
-            </div>
-            <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
-              {selectedHackathon !== null && (
-                <Title
-                  // @ts-ignore
-                  title={selectedHackathon.name}
-                  // @ts-ignore
-                  location={selectedHackathon.location}
-                  // @ts-ignore
-                  startDate={formatDate(selectedHackathon.startDate)}
-                  // @ts-ignore
-                  endDate={formatDate(selectedHackathon.endDate)}
-                />
-              )}
-              {selectedHackathon !== null && (
+          <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around">
+            {hackathons.length > 0 ? (
+              hackathons.map((hackathon, index) => (
+                <div key={index} className="mb-2">
+                  <HackathonCard
+                    key={index}
+                    data={hackathon}
+                    onCardClick={() => handleCardClick(hackathon)}
+                  />
+                </div>
+              ))
+            ) : (
+              <p className="text-center flex justify-center items-center h-full">
+                No Hackathons
+              </p>
+            )}
+          </div>
+        )}
+        {isLoading ? (
+          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around flex items-center justify-center">
+            <Spinner color="default" />
+          </div>
+        ) : (
+          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
+            {selectedHackathon !== null && (
+              <Title
                 // @ts-ignore
-                <Events title={selectedHackathon.name} events={selectedHackathon.events} />
-              )}
-              <Leaderboard />
-            </div>
-          </>
+                title={selectedHackathon.name}
+                // @ts-ignore
+                location={selectedHackathon.location}
+                // @ts-ignore
+                startDate={formatDate(selectedHackathon.startDate)}
+                // @ts-ignore
+                endDate={formatDate(selectedHackathon.endDate)}
+              />
+            )}
+            {selectedHackathon !== null && (
+              <Events
+                // @ts-ignore
+                title={selectedHackathon.name}
+                // @ts-ignore
+                events={selectedHackathon.events}
+              />
+            )}
+            <Leaderboard />
+          </div>
         )}
       </main>
     </NextUIProvider>

@@ -26,16 +26,21 @@ export const POST = async (req: NextRequest) => {
     }
 
     // Add logic here to associate the user with the hackathon
+    if(user.hackathons.find((hack:any) => hack.hackathon.valueOf() === id).length <= 0){
+      user.hackathons.push({ hackathon: id, points: 0, itemPoints: 0 });
+      hackathon.hackers.push(email);
 
-    user.hackathons.push({ hackathon: id, points: 0, itemPoints: 0 });
-    hackathon.hackers.push(email);
+      await user.save();
+      await hackathon.save();
+      return new Response("User added to the hackathon successfully", {
+        status: 200,
+      });
+    }
 
-    await user.save();
-    await hackathon.save();
-
-    return new Response("User added to the hackathon successfully", {
-      status: 200,
+    return new Response("Hacker already admitted", {
+      status: 301,
     });
+    
   } catch (error) {
     console.log(error);
     return new Response("Failed to add user", { status: 500 });

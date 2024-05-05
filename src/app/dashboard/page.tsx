@@ -20,10 +20,12 @@ export default function Dashboard() {
   const [points, setPoints] = useState(0);
 
   const fetchPoints = async () => {
-    if(selectedHackathon){
+    if (selectedHackathon) {
       try {
         // @ts-ignore
-        const res = await fetch(`/api/points?id=${selectedHackathon._id || ""}`);
+        const res = await fetch(
+          `/api/points?id=${selectedHackathon._id || ""}`
+        );
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
@@ -115,13 +117,8 @@ export default function Dashboard() {
             <Spinner color="default" />
           </div>
         ) : (
-<<<<<<< Updated upstream
-          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
-            {selectedHackathon && (
-=======
           <div className="sm:col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
-            {selectedHackathon !== null && (
->>>>>>> Stashed changes
+            {selectedHackathon && (
               <Title
                 // @ts-ignore
                 title={selectedHackathon.name || ""}
@@ -151,7 +148,7 @@ export default function Dashboard() {
                 hackathonID={selectedHackathon._id || ""}
               />
             )}
-            {selectedHackathon !== null && <Leaderboard />}
+            {selectedHackathon && <Leaderboard />}
           </div>
         )}
       </main>

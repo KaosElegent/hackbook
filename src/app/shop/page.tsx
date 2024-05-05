@@ -46,12 +46,11 @@ export default function Shop() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useUser();
   const router = useRouter();
+  const [userType, setUserType] = useState("");
 
   const handleOpen = () => {
     onOpen();
   };
-
-  const userType = localStorage.getItem("userType");
 
   const addItem = async () => {
     // console.log(localStorage.getItem("selectedHackathonId"));
@@ -137,6 +136,7 @@ export default function Shop() {
 
   useEffect(() => {
     fetchHackathons("");
+    setUserType(localStorage.getItem("userType") || "");
   }, []);
 
   const handleCardClick = (hackathon: any) => {

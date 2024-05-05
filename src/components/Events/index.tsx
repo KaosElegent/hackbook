@@ -36,12 +36,14 @@ interface EventsProps {
   title: string;
   events: Event[];
   refreshFunction: any;
+  hackathonID: string;
 }
 
-export default function Events({ refreshFunction, title, events }: EventsProps) {
+export default function Events({ refreshFunction, title, events, hackathonID }: EventsProps) {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
   
   const filteredEvents = events.filter((event) =>
     event.name.toLowerCase().includes(search.toLowerCase())
@@ -69,6 +71,7 @@ export default function Events({ refreshFunction, title, events }: EventsProps) 
         name: name.value,
         location: location.value,
         startDate: startDate,
+        endDate: endDate,
         points: points.value,
         description: description.value,
       }),
@@ -145,7 +148,7 @@ export default function Events({ refreshFunction, title, events }: EventsProps) 
               new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
           )
           .map((event, index) => (
-            <EventCard key={index} {...event} />
+            <EventCard key={index} {...event} hackathonID={hackathonID}/>
           ))}
       </div>
       <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
@@ -170,13 +173,22 @@ export default function Events({ refreshFunction, title, events }: EventsProps) 
                     placeholder="enter event location"
                   />
                   <DatePicker
-                    id="date"
-                    label="Event Date"
+                    id="sdate"
+                    label="Event Start Date"
                     variant="bordered"
                     hideTimeZone
                     showMonthAndYearPickers
                     defaultValue={now(getLocalTimeZone())}
                     onChange={(date) => setStartDate(date.toDate())} // Convert 'ZonedDateTime' to 'Date'
+                  />
+                  <DatePicker
+                    id="edate"
+                    label="Event End Date"
+                    variant="bordered"
+                    hideTimeZone
+                    showMonthAndYearPickers
+                    defaultValue={now(getLocalTimeZone())}
+                    onChange={(date) => setEndDate(date.toDate())} // Convert 'ZonedDateTime' to 'Date'
                   />
                   <Input id="points" type="number" label="Points" defaultValue='0' />
                   <Textarea id="description" label="Description" placeholder="enter event description" />

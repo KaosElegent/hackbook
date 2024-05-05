@@ -67,9 +67,9 @@ export default function Navbar() {
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem isActive>
-            <Link color="foreground" href="/">
+            <Link color="foreground" href="/dashboard">
               <Button className="bg-gradient-to-tr from-yellow-700 to-purple-700 shadow-around">
-                <span className="text-lg font-bold">Home</span>
+                <span className="text-lg font-bold">Dashboard</span>
               </Button>
             </Link>
           </NavbarItem>

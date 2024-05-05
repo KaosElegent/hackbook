@@ -45,7 +45,7 @@ export const POST = async (req: NextRequest) => {
     userHackathon.itemPoints += event.points;
 
     await user.save();
-    */
+    
    if(userHackathon){
     console.log(await Hackathon.find({ _id: id, "events.name": name }));
     console.log(await Hacker.find({email: email, hackathons: {$elemMatch: { hackathon: id }}}));

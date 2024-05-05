@@ -66,6 +66,8 @@ export default function EventCard({
     onOpen();
   };
 
+  const userType = localStorage.getItem("userType");
+
   const scanQR = async () => {
     onClose();
     router.push(`/qr?id=${hackathonID}?event=${name}`);
@@ -147,7 +149,7 @@ export default function EventCard({
                 </Card>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={scanQR}>
+                <Button color="danger" variant="light" onPress={scanQR} isDisabled={userType !== "organizer"}>
                   Scan Hacker QR
                 </Button>
                 <Button color="danger" variant="light" onPress={onClose}>

@@ -19,6 +19,7 @@ import {
   DatePickerProps,
 } from "@nextui-org/react";
 import locationIcon from "@/public/Icons/location.svg";
+import personIcon from "@/public/Icons/person.svg";
 import dateIcon from "@/public/Icons/date.svg";
 import Image from "next/image";
 
@@ -36,6 +37,7 @@ export default function Title({
   endDate,
 }: TitleProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const userType = localStorage.getItem("userType");
 
   const handleOpen = () => {
     onOpen();
@@ -58,7 +60,7 @@ export default function Title({
     if (res.ok) {
       onClose();
     }
-  }
+  };
 
   return (
     <div>
@@ -98,12 +100,15 @@ export default function Title({
             </div>
           </CardBody>
         </Card>
-        <Card isPressable
-          isHoverable
-          onPress={() => handleOpen()}>
-          <CardBody className="text-center text-xl" >
+        <Card
+          isPressable={userType === "organizer"}
+          isHoverable={userType === "organizer"}
+          onPress={() => handleOpen()}
+          isDisabled={userType !== "organizer"}
+        >
+          <CardBody className="text-center text-xl">
             <div className="flex items-center justify-center h-full">
-              <Image src={locationIcon} alt="location" height={25} width={25} />
+              <Image src={personIcon} alt="hacker" height={25} width={25} />
               &nbsp;
               <span className="text-transparent bg-gradient-to-tr from-yellow-600 to-purple-600 bg-clip-text font-bold">
                 Hackers
@@ -111,10 +116,10 @@ export default function Title({
             </div>
           </CardBody>
         </Card>
-        <Card>
+        <Card isDisabled>
           <CardBody className="text-center text-xl">
             <div className="flex items-center justify-center h-full">
-              <Image src={locationIcon} alt="location" height={25} width={25} />
+              <Image src={personIcon} alt="organizer" height={25} width={25} />
               &nbsp;
               <span className="text-transparent bg-gradient-to-tr from-yellow-600 to-purple-600 bg-clip-text font-bold">
                 Organizers
@@ -138,7 +143,7 @@ export default function Title({
                     label="Hacker Email"
                     placeholder="Enter the google email of the hacker"
                   />
-                  </div>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" onPress={addHacker}>
@@ -150,6 +155,5 @@ export default function Title({
         </ModalContent>
       </Modal>
     </div>
-
   );
 }

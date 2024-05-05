@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -75,7 +76,10 @@ export default function Navbar() {
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           {user && (
             <NavbarItem isActive>
-              <Link color="foreground" href="/dashboard">
+              <Link
+                color="foreground"
+                href={userType === "organizer" ? "/editing" : "/dashboard"}
+              >
                 <Button className="bg-gradient-to-tr from-yellow-700 to-purple-700 shadow-around">
                   <span className="text-lg font-bold">Dashboard</span>
                 </Button>
@@ -119,9 +123,7 @@ export default function Navbar() {
                   className="shadow-around rounded-xl"
                 >
                   <DropdownItem key="profile" className="h-14 gap-2">
-                    <p className="font-bold">
-                      Signed in as {localStorage.getItem("userType")}
-                    </p>
+                    <p className="font-bold">Signed in as {userType}</p>
                     <p className="font-bold">@{user.nickname}</p>
                   </DropdownItem>
                   <DropdownItem key="profile" className="h-14 gap-2">

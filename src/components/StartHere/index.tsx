@@ -12,9 +12,14 @@ const StartHere: React.FC = () => {
 
   const router = useRouter();
 
-  const connectAndContinue = async () => {
+  const connectAndContinueHack = async () => {
     await fetch("/api/connectMongo");
     router.push("/dashboard");
+  };
+
+  const connectAndContinueOrg = async () => {
+    await fetch("/api/connectMongo");
+    router.push("/editing");
   };
 
   const routeOrganizer = async () => {
@@ -66,10 +71,11 @@ const StartHere: React.FC = () => {
     if (user) {
       if (localStorage.getItem("userType") === "organizer") {
         createOrganizer();
+        connectAndContinueOrg();
       } else {
         createHacker();
+        connectAndContinueHack();
       }
-      connectAndContinue();
     }
   }, [user]);
 

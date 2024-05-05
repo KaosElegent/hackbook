@@ -1,22 +1,19 @@
-'use client'
-
-// VS code was complaining so I imported it in the other format
-//const NextUIProvider = require('@nextui-org/react');
+import React from 'react';
 import { NextUIProvider } from '@nextui-org/react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import StartHere from '@/components/StartHere';
-import About from '@/components/About';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-      <NextUIProvider>
-        <Navbar />
-        <main>
-          <Hero/>
-          <About />
-          <StartHere />
-          </main>
-      </NextUIProvider>
+    <NextUIProvider>
+      <Navbar/>
+      <main>
+        <Hero />
+        <StartHere />
+        <Footer />
+      </main>
+    </NextUIProvider>
   );
 }

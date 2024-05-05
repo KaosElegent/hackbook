@@ -8,7 +8,7 @@ import Title from "@/components/HackathonTitle";
 import React, { useEffect, useState } from "react";
 import HackathonCard from "@/components/HackathonCard";
 import Leaderboard from "@/components/Leaderboard";
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 import {
   Spinner,
@@ -55,7 +55,7 @@ export default function Editing() {
     } catch (error) {
       console.error("Error:", error);
     }
-  }
+  };
 
   const addHackathon = async () => {
     const name = document.getElementById("name") as HTMLInputElement;
@@ -81,7 +81,7 @@ export default function Editing() {
       onClose();
       fetchHackathons("");
     }
-  }
+  };
 
   const fetchHackathons = async (cursor: string) => {
     setIsLoading(true);
@@ -111,13 +111,13 @@ export default function Editing() {
 
   useEffect(() => {
     fetchHackathons("");
-  },[]);
+  }, []);
 
   const handleCardClick = (hackathon: any) => {
     setSelectedHackathon(hackathon);
     console.log(hackathon._id);
     localStorage.setItem("selectedHackathonId", hackathon._id);
-      fetchPoints();
+    fetchPoints();
   };
 
   const formatDate = (dateString: string) => {
@@ -131,7 +131,7 @@ export default function Editing() {
   return (
     <NextUIProvider>
       <Navbar />
-      <main className="grid grid-cols-4 gap-4 mt-8">
+      <main className="grid sm:grid-cols-4 gap-4 mt-8">
         {isLoading ? (
           <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around flex items-center justify-center">
             <Spinner color="default" />
@@ -166,11 +166,11 @@ export default function Editing() {
           </div>
         )}
         {isLoading ? (
-          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around flex items-center justify-center">
+          <div className="sm:col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around flex items-center justify-center">
             <Spinner color="default" />
           </div>
         ) : (
-          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
+          <div className="sm:col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
             {selectedHackathon !== null && (
               <Title
                 // @ts-ignore
@@ -209,12 +209,22 @@ export default function Editing() {
             {(onClose) => (
               <>
                 <ModalHeader className="flex flex-col gap-1">
-                  Add  Hackathon
+                  Add Hackathon
                 </ModalHeader>
                 <ModalBody>
                   <div className="flex flex-col gap-2">
-                    <Input id="name" type="text" label="Name" placeholder="enter your hackathon name" />
-                    <Input id="location" type="text" label="Location" placeholder="enter hackathon location" />
+                    <Input
+                      id="name"
+                      type="text"
+                      label="Name"
+                      placeholder="enter your hackathon name"
+                    />
+                    <Input
+                      id="location"
+                      type="text"
+                      label="Location"
+                      placeholder="enter hackathon location"
+                    />
                     <Input id="startDate" type="date" label="Start Date" />
                     <Input id="endDate" type="date" label="End Date" />
                   </div>
@@ -223,7 +233,11 @@ export default function Editing() {
                   <Button color="danger" variant="light" onPress={onClose}>
                     Cancel
                   </Button>
-                  <Button color="primary" variant="light" onPress={addHackathon}>
+                  <Button
+                    color="primary"
+                    variant="light"
+                    onPress={addHackathon}
+                  >
                     Add
                   </Button>
                 </ModalFooter>

@@ -21,7 +21,7 @@ export default function Dashboard() {
   const fetchHackathons = async (cursor: string) => {
     setIsLoading(true);
     try {
-      const res = await fetch(cursor || "/api/hackathons?type=organizer");
+      const res = await fetch(cursor || `/api/hackathons?type=${localStorage.getItem("userType")}`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }

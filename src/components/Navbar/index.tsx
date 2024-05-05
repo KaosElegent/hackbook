@@ -61,7 +61,13 @@ export default function Navbar() {
             className="sm:hidden"
           />
           <NavbarBrand>
-            <Image src={logo} alt="logo" height={50} width={50} className="rounded-lg" />
+            <Image
+              src={logo}
+              alt="logo"
+              height={50}
+              width={50}
+              className="rounded-lg"
+            />
           </NavbarBrand>
         </NavbarContent>
 
@@ -122,7 +128,9 @@ export default function Navbar() {
                     <p className="font-bold">@{user.nickname}</p>
                   </DropdownItem>
                   <DropdownItem key="profile" className="h-14 gap-2">
-                    <Link href="/shop">Shop</Link>
+                    <Link href="/shop">
+                      <Button>Shop</Button>
+                    </Link>
                   </DropdownItem>
                   <DropdownItem key="logout">
                     <Link href="/api/auth/logout">

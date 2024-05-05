@@ -67,10 +67,10 @@ export default function Dashboard() {
   }, []);
 
   const handleCardClick = async (hackathon: any) => {
-    fetchPoints();
     setSelectedHackathon(hackathon);
     console.log(hackathon._id)
     localStorage.setItem("selectedHackathonId", hackathon._id);
+    fetchPoints();
   };
 
   const formatDate = (dateString: string) => {

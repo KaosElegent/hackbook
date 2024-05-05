@@ -17,11 +17,11 @@ export const POST = async (req: NextRequest) => {
     const hackathon = await Hackathon.findOne({ _id: id });
     const user = await Hacker.findOne({ email });
 
-    if (!hackathon[0]) {
+    if (!hackathon) {
       return new Response("Hackathon not found", { status: 401 });
     }
 
-    if (!user[0]) {
+    if (!user) {
       return new Response("User not found", { status: 404 });
     }
 

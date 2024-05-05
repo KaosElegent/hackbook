@@ -27,7 +27,7 @@ const Hero = () => {
             </span>{" "}
             can be.
           </p>
-          <Button color="default">Get started</Button>
+          {/* <Button color="default" href='#start' className='smooth-scroll'>Get started</Button> */}
           <div className="relative left-0 right-0 flex justify-center py-8">
             <div className="scroll">
               <div className="chevron"></div>

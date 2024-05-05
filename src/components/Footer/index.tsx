@@ -1,4 +1,6 @@
 import React from 'react';
+import Image from 'next/image';
+import logo from '@/public/logo.svg';
 
 const Footer = () => {
     return (
@@ -7,7 +9,8 @@ const Footer = () => {
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
               <a href="/" className="flex items-center">
-                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                <Image src={logo} alt='logo' width={50} height={50} className='rounded-lg' />
+                <span className="self-center text-4xl font-semibold whitespace-nowrap text-transparent bg-gradient-to-tr from-yellow-600 to-purple-600 bg-clip-text pl-3">
                   HackBook
                 </span>
               </a>
@@ -54,14 +57,16 @@ const Footer = () => {
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2023{" "}
               <a href="/" className="hover:underline">
-                HackBook
+                <span className="text-transparent bg-gradient-to-tr from-yellow-600 to-purple-600 font-bold bg-clip-text">
+                  HackBook
+                </span>
               </a>
               . All Rights Reserved.
             </span>
             <div className="flex mt-4 sm:justify-center sm:mt-0">
               <a
-                            href="https://www.youtube.com/watch?v=e35P-W2Yoho&ab_channel=MidiMaze178"
-                            target='_blank'
+                href="https://www.youtube.com/watch?v=e35P-W2Yoho&ab_channel=MidiMaze178"
+                target="_blank"
                 className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
               >
                 <svg

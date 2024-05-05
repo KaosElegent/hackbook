@@ -20,10 +20,12 @@ export default function Dashboard() {
   const [points, setPoints] = useState(0);
 
   const fetchPoints = async () => {
-    if(selectedHackathon){
+    if (selectedHackathon) {
       try {
         // @ts-ignore
-        const res = await fetch(`/api/points?id=${selectedHackathon._id || ""}`);
+        const res = await fetch(
+          `/api/points?id=${selectedHackathon._id || ""}`
+        );
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
@@ -34,12 +36,14 @@ export default function Dashboard() {
         console.error("Error:", error);
       }
     }
-  }
+  };
 
   const fetchHackathons = async (cursor: string) => {
     setIsLoading(true);
     try {
-      const res = await fetch(cursor || `/api/hackathons?type=${localStorage.getItem("userType")}`);
+      const res = await fetch(
+        cursor || `/api/hackathons?type=${localStorage.getItem("userType")}`
+      );
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -68,7 +72,7 @@ export default function Dashboard() {
 
   const handleCardClick = async (hackathon: any) => {
     setSelectedHackathon(hackathon);
-    console.log(hackathon._id)
+    console.log(hackathon._id);
     localStorage.setItem("selectedHackathonId", hackathon._id);
     fetchPoints();
   };
@@ -84,7 +88,7 @@ export default function Dashboard() {
   return (
     <NextUIProvider>
       <Navbar />
-      <main className="grid grid-cols-4 gap-4 mt-8">
+      <main className="grid sm:grid-cols-4 grid-cols-1 gap-4 mt-8">
         {isLoading ? (
           <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around flex items-center justify-center">
             <Spinner color="default" />
@@ -109,11 +113,11 @@ export default function Dashboard() {
           </div>
         )}
         {isLoading ? (
-          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around flex items-center justify-center">
+          <div className="sm:col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around flex items-center justify-center">
             <Spinner color="default" />
           </div>
         ) : (
-          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
+          <div className="sm:col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
             {selectedHackathon && (
               <Title
                 // @ts-ignore
@@ -144,7 +148,7 @@ export default function Dashboard() {
                 hackathonID={selectedHackathon._id || ""}
               />
             )}
-            <Leaderboard />
+            {selectedHackathon && <Leaderboard />}
           </div>
         )}
       </main>

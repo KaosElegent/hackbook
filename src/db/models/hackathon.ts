@@ -11,9 +11,11 @@ const HackathonSchema = new Schema(
     events: [
       {
         name: { type: String, required: true },
+        location: { type: String, required: true },
         startDate: { type: Date, required: true },
         endDate: { type: Date, required: true },
         points: { type: Number, required: true },
+        description: { type: String },
         attendees: [{ type: String, ref: "HackerEmail" }],
       },
     ],

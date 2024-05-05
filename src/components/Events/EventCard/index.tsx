@@ -10,6 +10,7 @@ import {
   Button,
   useDisclosure,
   CardHeader,
+  Link,
 } from "@nextui-org/react";
 import Image from "next/image";
 import locationIcon from "@/public/Icons/location.svg";
@@ -65,6 +66,8 @@ export default function EventCard({
     onOpen();
   };
 
+  const userType = localStorage.getItem("userType");
+
   const scanQR = async () => {
     onClose();
     router.push(`/qr?id=${hackathonID}?event=${name}`);
@@ -116,19 +119,21 @@ export default function EventCard({
                     </div>
                   </CardBody>
                 </Card>
-                <Card isPressable>
-                  <CardBody>
-                    <div className="flex">
-                      <Image
-                        src={pointsIcon}
-                        alt="points"
-                        height={20}
-                        width={20}
-                      />
-                      &nbsp;{`${points} points`}
-                    </div>
-                  </CardBody>
-                </Card>
+                <Link href="/shop">
+                  <Card isPressable className="w-full">
+                    <CardBody>
+                      <div className="flex">
+                        <Image
+                          src={pointsIcon}
+                          alt="points"
+                          height={20}
+                          width={20}
+                        />
+                        &nbsp;{`${points} points`}
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Link>
                 <Card isPressable>
                   <CardBody>
                     <div className="flex">
@@ -144,7 +149,7 @@ export default function EventCard({
                 </Card>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={scanQR}>
+                <Button color="danger" variant="light" onPress={scanQR} isDisabled={userType !== "organizer"}>
                   Scan Hacker QR
                 </Button>
                 <Button color="danger" variant="light" onPress={onClose}>

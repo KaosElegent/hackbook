@@ -61,7 +61,7 @@ export default function Navbar() {
             className="sm:hidden"
           />
           <NavbarBrand>
-            <Image src={logo} alt="logo" height={50} width={50} />
+            <Image src={logo} alt="logo" height={50} width={50} className="rounded-lg" />
           </NavbarBrand>
         </NavbarContent>
 

@@ -44,6 +44,7 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
+  const userType = localStorage.getItem("userType");
   
   const filteredEvents = events.filter((event) =>
     event.name.toLowerCase().includes(search.toLowerCase())
@@ -132,23 +133,25 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
         </CardFooter>
       </Card>
       <div className="flex items-center">
-        <Card
-          className="mt-3"
-          isPressable
-          isHoverable
-          onPress={() => handleOpen()}
-        >
-          <CardBody>
-            <Image src={addIcon} alt="add icon" height={20} width={20} />
-          </CardBody>
-        </Card>
+        {userType === "organizer" && (
+          <Card
+            className="mt-3"
+            isPressable
+            isHoverable
+            onPress={() => handleOpen()}
+          >
+            <CardBody>
+              <Image src={addIcon} alt="add icon" height={20} width={20} />
+            </CardBody>
+          </Card>
+        )}
         {filteredEvents
           .sort(
             (a, b) =>
               new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
           )
           .map((event, index) => (
-            <EventCard key={index} {...event} hackathonID={hackathonID}/>
+            <EventCard key={index} {...event} hackathonID={hackathonID} />
           ))}
       </div>
       <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
@@ -190,15 +193,24 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
                     defaultValue={now(getLocalTimeZone())}
                     onChange={(date) => setEndDate(date.toDate())} // Convert 'ZonedDateTime' to 'Date'
                   />
-                  <Input id="points" type="number" label="Points" defaultValue='0' />
-                  <Textarea id="description" label="Description" placeholder="enter event description" />
+                  <Input
+                    id="points"
+                    type="number"
+                    label="Points"
+                    defaultValue="0"
+                  />
+                  <Textarea
+                    id="description"
+                    label="Description"
+                    placeholder="enter event description"
+                  />
                 </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  Delete
+                  Cancel
                 </Button>
-                <Button color="primary" onPress={addEvent}>
+                <Button color="primary" variant="light" onPress={addEvent}>
                   Add
                 </Button>
               </ModalFooter>

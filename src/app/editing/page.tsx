@@ -218,9 +218,9 @@ export default function Editing() {
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>
-                    Delete
+                    Cancel
                   </Button>
-                  <Button color="primary" onPress={addHackathon}>
+                  <Button color="primary" variant="light" onPress={addHackathon}>
                     Add
                   </Button>
                 </ModalFooter>

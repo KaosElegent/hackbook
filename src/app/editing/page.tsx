@@ -42,7 +42,6 @@ export default function Editing() {
 
   const fetchPoints = async () => {
     try {
-      // @ts-ignore
       if (selectedHackathon) {
         // @ts-ignore
         const res = await fetch(`/api/points?id=${selectedHackathon._id}`);

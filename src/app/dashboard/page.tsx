@@ -115,6 +115,8 @@ export default function Dashboard() {
                 title={selectedHackathon.name}
                 // @ts-ignore
                 events={selectedHackathon.events}
+                // @ts-ignore
+                refreshFunction={fetchHackathons}
               />
             )}
             <Leaderboard />

@@ -10,14 +10,13 @@ export const POST = async (req: NextRequest) => {
   try {
     //await connectDB();
 
-    const { id, name, location, startDate, endDate, points, description } = await req.json();
+    const { id, name, location, startDate, points, description } = await req.json();
 
     const event = {
       name,
       description,
       location,
       startDate,
-      endDate,
       points,
       attendees: [],
     };

@@ -8,6 +8,7 @@ import Title from "@/components/HackathonTitle";
 import React, { useEffect, useState } from "react";
 import HackathonCard from "@/components/HackathonCard";
 import Leaderboard from "@/components/Leaderboard";
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 import {
   Spinner,
@@ -32,10 +33,37 @@ export default function Editing() {
   const [hackathons, setHackathons] = useState([]);
   const [selectedHackathon, setSelectedHackathon] = React.useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useUser();
 
   const handleOpen = () => {
     onOpen();
   };
+
+  const addHackathon = async () => {
+    const name = document.getElementById("name") as HTMLInputElement;
+    const location = document.getElementById("location") as HTMLInputElement;
+    const startDate = document.getElementById("startDate") as HTMLInputElement;
+    const endDate = document.getElementById("endDate") as HTMLInputElement;
+
+    const res = await fetch("/api/hackathons", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: user?.email || "",
+        name: name.value,
+        location: location.value,
+        startDate: startDate.value,
+        endDate: endDate.value,
+      }),
+    });
+
+    if (res.ok) {
+      onClose();
+      fetchHackathons("");
+    }
+  }
 
   const fetchHackathons = async (cursor: string) => {
     setIsLoading(true);
@@ -65,7 +93,7 @@ export default function Editing() {
 
   useEffect(() => {
     fetchHackathons("");
-  }, []);
+  },[]);
 
   const handleCardClick = (hackathon: any) => {
     setSelectedHackathon(hackathon);
@@ -144,6 +172,8 @@ export default function Editing() {
                 title={selectedHackathon.name}
                 // @ts-ignore
                 events={selectedHackathon.events}
+                // @ts-ignore
+                refreshFunction={fetchHackathons}
               />
             )}
             <Leaderboard />
@@ -158,17 +188,17 @@ export default function Editing() {
                 </ModalHeader>
                 <ModalBody>
                   <div className="flex flex-col gap-2">
-                    <Input type="text" label="Name" placeholder="enter your hackathon name" />
-                    <Input type="text" label="Location" placeholder="enter hackathon location" />
-                    <Input type="date" label="Start Date" />
-                    <Input type="date" label="End Date" />
+                    <Input id="name" type="text" label="Name" placeholder="enter your hackathon name" />
+                    <Input id="location" type="text" label="Location" placeholder="enter hackathon location" />
+                    <Input id="startDate" type="date" label="Start Date" />
+                    <Input id="endDate" type="date" label="End Date" />
                   </div>
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>
                     Delete
                   </Button>
-                  <Button color="primary" onPress={onClose}>
+                  <Button color="primary" onPress={addHackathon}>
                     Add
                   </Button>
                 </ModalFooter>

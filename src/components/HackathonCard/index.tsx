@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, CardBody } from '@nextui-org/react';
+import Hackathon from "@/db/models/hackathon";
 
 interface HackathonCardProps {
   data: {

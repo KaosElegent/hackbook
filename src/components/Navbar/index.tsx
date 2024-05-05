@@ -32,6 +32,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [userType, setUserType] = useState<string>("");
   const menuItems = ["Home", "Profile", "Log Out"];
 
   const pathname = usePathname();
@@ -39,12 +40,11 @@ export default function Navbar() {
   const [src, setSrc] = useState<string>("");
 
   useEffect(() => {
+    setUserType(localStorage.getItem("userType") || "");
     if (user?.email) {
       QRCode.toDataURL(user?.email || "").then(setSrc);
     }
   }, [user?.email]);
-
-  const userType = localStorage.getItem("userType");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

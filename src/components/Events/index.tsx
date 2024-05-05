@@ -13,11 +13,15 @@ import {
   Button,
   Textarea,
   useDisclosure,
+  DatePicker,
+  DatePickerProps,
 } from "@nextui-org/react";
+import {now, getLocalTimeZone} from "@internationalized/date";
 import { SearchIcon } from './SearchIcon';
 import EventCard from './EventCard';
 import addIcon from "@/public/Icons/add.svg";
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface Event {
   name: string;
@@ -31,10 +35,13 @@ interface Event {
 interface EventsProps {
   title: string;
   events: Event[];
+  refreshFunction: any;
 }
 
-export default function Events({ title, events }: EventsProps) {
+export default function Events({ refreshFunction, title, events }: EventsProps) {
+  const router = useRouter();
   const [search, setSearch] = useState("");
+  const [startDate, setStartDate] = useState<Date>(new Date());
   
   const filteredEvents = events.filter((event) =>
     event.name.toLowerCase().includes(search.toLowerCase())
@@ -45,6 +52,34 @@ export default function Events({ title, events }: EventsProps) {
   const handleOpen = () => {
     onOpen();
   };
+
+  const addEvent = async () => {
+    const name = document.getElementById("name") as HTMLInputElement;
+    const location = document.getElementById("location") as HTMLInputElement;
+    const points = document.getElementById("points") as HTMLInputElement;
+    const description = document.getElementById("description") as HTMLInputElement;
+
+    const res = await fetch("/api/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: localStorage.getItem("selectedHackathonId"),
+        name: name.value,
+        location: location.value,
+        startDate: startDate,
+        points: points.value,
+        description: description.value,
+      }),
+    });
+
+    if (res.ok) {
+      onClose();
+      refreshFunction();
+      router.refresh();
+    }
+  }
 
   return (
     <div className="border-2 border-[#27272a] rounded-[15px] p-2">
@@ -123,26 +158,35 @@ export default function Events({ title, events }: EventsProps) {
               <ModalBody>
                 <div className="flex flex-col gap-2">
                   <Input
+                    id="name"
                     type="text"
                     label="Name"
-                    placeholder="enter your hackathon name"
+                    placeholder="enter your event name"
                   />
                   <Input
+                    id="location"
                     type="text"
                     label="Location"
-                    placeholder="enter hackathon location"
+                    placeholder="enter event location"
                   />
-                  <Input type="date" label="Start Date" />
-                  <Input type="date" label="End Date" />
-                  <Input type="number" label="Points" defaultValue='0' />
-                  <Textarea label="Description" placeholder="enter event description" />
+                  <DatePicker
+                    id="date"
+                    label="Event Date"
+                    variant="bordered"
+                    hideTimeZone
+                    showMonthAndYearPickers
+                    defaultValue={now(getLocalTimeZone())}
+                    onChange={(date) => setStartDate(date.toDate())} // Convert 'ZonedDateTime' to 'Date'
+                  />
+                  <Input id="points" type="number" label="Points" defaultValue='0' />
+                  <Textarea id="description" label="Description" placeholder="enter event description" />
                 </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Delete
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" onPress={addEvent}>
                   Add
                 </Button>
               </ModalFooter>

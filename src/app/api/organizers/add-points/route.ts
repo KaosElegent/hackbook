@@ -40,15 +40,10 @@ export const POST = async (req: NextRequest) => {
         status: 400,
       });
     }
+    event.attendees.push(email);
+    userHackathon.points += event.points;
+    userHackathon.itemPoints += event.points;
 
-    /*
-    if(userHackathon){
-      event.attendees.push(email);
-      userHackathon.points += event.points;
-    }
-    
-
-    await event.save();
     await user.save();
     */
    if(userHackathon){

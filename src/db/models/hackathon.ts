@@ -1,5 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
+<<<<<<< HEAD
 const HackathonSchema = new Schema({
   name: { type: String, required: true },
   location: { type: String, required: true },
@@ -10,14 +11,37 @@ const HackathonSchema = new Schema({
   events: [{
     name: { type: String, required: true, unique: true},
     description: { type: String},
+=======
+const HackathonSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    location: { type: String, required: true },
+>>>>>>> 511c9e72b2f4d5333d8611ff089e47d8f6dc306a
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
-    location: { type: String, required: true },
-    points: { type: Number, required: true },
-    attendees: [{ type: String, ref: "HackerEmail" }],
-  }],
-  hackString: { type: String, default:""},
-});
+    organizers: [{ type: String, ref: "Organizer" }],
+    hackers: [{ type: String, ref: "Hacker" }],
+    events: [
+      {
+        name: { type: String, required: true },
+        startDate: { type: Date, required: true },
+        endDate: { type: Date, required: true },
+        location: { type: String, required: true },
+        points: { type: Number, required: true },
+        attendees: [{ type: String, ref: "HackerEmail" }],
+      },
+    ],
+    shop: [
+      {
+        name: { type: String, unique: true, required: true },
+        points: { type: Number, rquired: true },
+        image: { type: String },
+        description: { type: String },
+      },
+    ],
+    hackString: { type: String, default: "" },
+    }
+);
 
 const Hackathon = models.hackathons || model("hackathons", HackathonSchema);
 

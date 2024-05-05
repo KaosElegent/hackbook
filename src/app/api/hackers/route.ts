@@ -14,29 +14,33 @@ export const POST = async (req: NextRequest) => {
   try {
     //await connectDB();
 
-    const session:any = await getSession();
+    const session: any = await getSession();
 
-    if(session){
-      const user:UserProfile = session.user;
+    if (session) {
+      const user: UserProfile = session.user;
 
       let hackerAcc = await Hacker.find({ email: user.email }).exec();
 
-      if(hackerAcc.length === 0){
+      if (hackerAcc.length === 0) {
         const hacker = new Hacker({
           name: user.name,
           email: user.email,
           discordName: "",
           hackathons: [],
         });
-    
+
         await hacker.save();
-        return NextResponse.json({ success:"New hacker was saved" }, { status: 200 })
+        return NextResponse.json(
+          { success: "New hacker was saved" },
+          { status: 200 }
+        );
+      } else {
+        return NextResponse.json(
+          { success: "Hacker already exists" },
+          { status: 200 }
+        );
       }
-      else{
-        return NextResponse.json({ success:"Hacker already exists" }, { status: 200 })
-      }
-      
-    }else{
+    } else {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
   } catch (error) {

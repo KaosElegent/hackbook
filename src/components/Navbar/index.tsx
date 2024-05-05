@@ -18,7 +18,8 @@ import {
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { usePathname } from 'next/navigation'
-var QRCode = require('qrcode');
+// var QRCode = require('qrcode');
+import QRCode from 'qrcode';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -58,7 +59,9 @@ export default function Navbar() {
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="/qr">Scan QR</Link>
+            <Link color="foreground" href="/qr">
+              Scan QR
+            </Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
@@ -66,7 +69,7 @@ export default function Navbar() {
             <img src={src} />
           </NavbarItem>
           <NavbarItem>
-            {user && pathname!=='/' ? (
+            {user && pathname !== "/" ? (
               <Dropdown placement="bottom-start">
                 <DropdownTrigger>
                   <User
@@ -80,10 +83,17 @@ export default function Navbar() {
                     name={user.name}
                   />
                 </DropdownTrigger>
-                <DropdownMenu aria-label="User Actions" variant="flat">
+                <DropdownMenu
+                  aria-label="User Actions"
+                  variant="flat"
+                  className="shadow-around rounded-xl"
+                >
                   <DropdownItem key="profile" className="h-14 gap-2">
                     <p className="font-bold">Signed in as</p>
                     <p className="font-bold">@{user.nickname}</p>
+                  </DropdownItem>
+                  <DropdownItem key="profile" className="h-14 gap-2">
+                    <Link href="/editing">Edit Dashboard</Link>
                   </DropdownItem>
                   <DropdownItem key="logout">
                     <Link href="/api/auth/logout">
@@ -92,7 +102,9 @@ export default function Navbar() {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-            ) : (<></>)}
+            ) : (
+              <></>
+            )}
           </NavbarItem>
         </NavbarContent>
         <NavbarMenu>

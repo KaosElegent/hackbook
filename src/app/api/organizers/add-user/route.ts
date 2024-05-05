@@ -3,6 +3,9 @@ import connectDB from "@/db/config";
 import { NextRequest, NextResponse } from "next/server";
 import Hacker from "@/db/models/hacker";
 import Hackathon from "@/db/models/hackathon";
+import mongoose from "mongoose";
+mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
+
 
 export const POST = async (req: NextRequest) => {
   try {

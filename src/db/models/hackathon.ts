@@ -8,7 +8,8 @@ const HackathonSchema = new Schema({
   organizers: [{ type: String, ref: "Organizer" }],
   hackers: [{ type: String, ref: "Hacker" }],
   events: [{
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true},
+    description: { type: String},
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     location: { type: String, required: true },

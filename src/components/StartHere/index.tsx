@@ -74,7 +74,7 @@ const StartHere: React.FC = () => {
   }, [user]);
 
   return (
-    <>
+    <section id="start">
       <h3 className="text-4xl text-center pb-24 font-bold">
         What describes{" "}
         <span className="text-transparent bg-gradient-to-tr from-yellow-600 to-purple-600 font-bold bg-clip-text">
@@ -126,7 +126,7 @@ const StartHere: React.FC = () => {
           </CardBody>
         </Card>
       </div>
-    </>
+    </section>
   );
 };
 

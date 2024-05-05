@@ -158,7 +158,7 @@ export default function Shop() {
   return (
     <NextUIProvider>
       <Navbar />
-      <main className="grid grid-cols-4 gap-4 mt-8">
+      <main className="grid sm:grid-cols-4 gap-4 mt-8">
         {isLoading ? (
           <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around flex items-center justify-center">
             <Spinner color="default" />
@@ -193,11 +193,11 @@ export default function Shop() {
           </div>
         )}
         {isLoading ? (
-          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around flex items-center justify-center">
+          <div className="sm:col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around flex items-center justify-center">
             <Spinner color="default" />
           </div>
         ) : (
-          <div className="col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
+          <div className="sm:col-span-3 border-2 border-[#27272a] rounded-[15px] p-2 shadow-around">
             <h2 className="text-transparent bg-gradient-to-tr from-yellow-600 to-purple-600 font-bold bg-clip-text text-6xl text-center pb-4">
               SHOP
             </h2>

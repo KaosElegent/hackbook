@@ -84,13 +84,7 @@ export default function Navbar() {
           )}
           {user &&
             (userType === "organizer" ? (
-              <NavbarItem>
-                <Link color="foreground" href="/qr">
-                  <Button color="default" className="shadow-around">
-                    Scan QR
-                  </Button>
-                </Link>
-              </NavbarItem>
+              <></>
             ) : (
               <NavbarItem>
                 <Button
@@ -158,11 +152,7 @@ export default function Navbar() {
 
           {user &&
             (userType === "organizer" ? (
-              <NavbarMenuItem>
-                <Link color="w-full" href="/qr">
-                  Scan QR
-                </Link>
-              </NavbarMenuItem>
+              <></>
             ) : (
               <NavbarMenuItem onClick={() => handleOpen()}>
                 Show QR

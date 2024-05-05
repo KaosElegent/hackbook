@@ -13,7 +13,7 @@ export const POST = async (req: NextRequest) => {
     //await connectDB();
 
     const { id, email } = await req.json();
-
+    console.log(id, email);
     const hackathon = await Hackathon.findOne({ _id: id });
     const user = await Hacker.findOne({ email });
 

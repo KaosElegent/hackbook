@@ -4,8 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Hacker from "@/db/models/hacker";
 import Hackathon from "@/db/models/hackathon";
 import mongoose from "mongoose";
-mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
-
+mongoose.connect(process.env.MONGODB_URI || "", {
+  dbName: process.env.DATABASE_NAME || "",
+});
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -16,11 +17,11 @@ export const POST = async (req: NextRequest) => {
     const hackathon = await Hackathon.findOne({ _id: id });
     const user = await Hacker.findOne({ email });
 
-    if (!hackathon) {
-      return new Response("Hackathon not found", { status: 404 });
+    if (!hackathon[0]) {
+      return new Response("Hackathon not found", { status: 401 });
     }
 
-    if (!user) {
+    if (!user[0]) {
       return new Response("User not found", { status: 404 });
     }
 

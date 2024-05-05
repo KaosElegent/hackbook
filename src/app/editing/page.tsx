@@ -8,20 +8,67 @@ import Title from "@/components/HackathonTitle";
 import React, { useEffect, useState } from "react";
 import HackathonCard from "@/components/HackathonCard";
 import Leaderboard from "@/components/Leaderboard";
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
-import { Spinner, Card, CardBody } from "@nextui-org/react";
+import {
+  Spinner,
+  Card,
+  CardBody,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  Input,
+} from "@nextui-org/react";
 import Events from "@/components/Events";
+import Image from "next/image";
+import addIcon from "@/public/Icons/add.svg";
 
-export default function Dashboard() {
+export default function Editing() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [hackathons, setHackathons] = useState([]);
   const [selectedHackathon, setSelectedHackathon] = React.useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useUser();
+
+  const handleOpen = () => {
+    onOpen();
+  };
+
+  const addHackathon = async () => {
+    const name = document.getElementById("name") as HTMLInputElement;
+    const location = document.getElementById("location") as HTMLInputElement;
+    const startDate = document.getElementById("startDate") as HTMLInputElement;
+    const endDate = document.getElementById("endDate") as HTMLInputElement;
+
+    const res = await fetch("/api/hackathons", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: user?.email || "",
+        name: name.value,
+        location: location.value,
+        startDate: startDate.value,
+        endDate: endDate.value,
+      }),
+    });
+
+    if (res.ok) {
+      onClose();
+      fetchHackathons("");
+    }
+  }
 
   const fetchHackathons = async (cursor: string) => {
     setIsLoading(true);
     try {
-      const res = await fetch(cursor || `/api/hackathons?type=${localStorage.getItem("userType")}`);
+      const res = await fetch(cursor || "/api/hackathons?type=organizer");
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -46,11 +93,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchHackathons("");
-  }, []);
+  },[]);
 
   const handleCardClick = (hackathon: any) => {
     setSelectedHackathon(hackathon);
-    console.log(hackathon._id)
+    console.log(hackathon._id);
     if (hackathon !== null) {
       localStorage.setItem("selectedHackathonId", hackathon._id);
     }
@@ -73,7 +120,7 @@ export default function Dashboard() {
             <Spinner color="default" />
           </div>
         ) : (
-          <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around">
+          <div className="col-span-1 border-[#27272a] border-2 rounded-[15px] p-2 shadow-around relative">
             {hackathons.length > 0 ? (
               hackathons.map((hackathon, index) => (
                 <div key={index} className="mb-2">
@@ -89,6 +136,16 @@ export default function Dashboard() {
                 No Hackathons
               </p>
             )}
+            <Card
+              className="absolute bottom-2"
+              isPressable
+              isHoverable
+              onPress={() => handleOpen()}
+            >
+              <CardBody>
+                <Image src={addIcon} alt="add icon" height={20} width={20} />
+              </CardBody>
+            </Card>
           </div>
         )}
         {isLoading ? (
@@ -122,6 +179,33 @@ export default function Dashboard() {
             <Leaderboard />
           </div>
         )}
+        <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Add  Hackathon
+                </ModalHeader>
+                <ModalBody>
+                  <div className="flex flex-col gap-2">
+                    <Input id="name" type="text" label="Name" placeholder="enter your hackathon name" />
+                    <Input id="location" type="text" label="Location" placeholder="enter hackathon location" />
+                    <Input id="startDate" type="date" label="Start Date" />
+                    <Input id="endDate" type="date" label="End Date" />
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Delete
+                  </Button>
+                  <Button color="primary" onPress={addHackathon}>
+                    Add
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </main>
     </NextUIProvider>
   );

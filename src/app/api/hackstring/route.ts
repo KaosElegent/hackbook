@@ -3,11 +3,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getResponse } from '../gemini';
 import connectDB from '@/db/config';
 import Hackathon from "@/db/models/hackathon";
+import mongoose from "mongoose";
+mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
+
 
 // create new lease
 export async function PUT(req: NextRequest, res: NextResponse) {
     try {
-        await connectDB();
+        //await connectDB();
 
         const { userInput, hackathon_id } = await req.json();
 

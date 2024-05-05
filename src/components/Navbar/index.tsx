@@ -1,5 +1,5 @@
+"use client"
 import React from "react";
-import { useState } from "react";
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
@@ -18,7 +18,8 @@ import {
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { usePathname } from 'next/navigation'
-var QRCode = require('qrcode');
+import logo from "@/public/logo.svg";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -29,8 +30,6 @@ export default function Navbar() {
   ];
 
   const { user } = useUser();
-  const [src, setSrc] = useState<string>('');
-  QRCode.toDataURL(user?.email || '').then(setSrc);
   const pathname = usePathname();
 
   return (
@@ -42,7 +41,7 @@ export default function Navbar() {
             className="sm:hidden"
           />
           <NavbarBrand>
-            <p className="font-bold text-inherit">HackBook</p>
+            <Image src={logo} alt="logo" height={50} width={50} />
           </NavbarBrand>
         </NavbarContent>
 
@@ -53,13 +52,10 @@ export default function Navbar() {
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="/qr">Scan QR</Link>
+            <Link color="foreground" href="/dashboard">Dashboard</Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
-          <NavbarItem>
-            <img src={src} />
-          </NavbarItem>
           <NavbarItem>
             {user && pathname!=='/' ? (
               <Dropdown placement="bottom-start">

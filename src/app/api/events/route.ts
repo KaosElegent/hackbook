@@ -2,15 +2,19 @@ import connectDB from "@/db/config";
 
 import { NextRequest, NextResponse } from "next/server";
 import Hackathon from "@/db/models/hackathon";
+import mongoose from "mongoose";
+mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
+
 
 export const POST = async (req: NextRequest) => {
   try {
     //await connectDB();
 
-    const { id, name, location, startDate, endDate, points } = await req.json();
+    const { id, name, location, startDate, endDate, points, description } = await req.json();
 
     const event = {
       name,
+      description,
       location,
       startDate,
       endDate,
@@ -56,7 +60,7 @@ export async function PUT(req: NextRequest) {
   try {
     //await connectDB();
 
-    const { id, oldName, newName, location, startDate, endDate, points } =
+    const { id, oldName, newName, location, startDate, endDate, points, description } =
       await req.json();
 
     const hackathon = await Hackathon.findById(id);
@@ -66,6 +70,7 @@ export async function PUT(req: NextRequest) {
 
     event.name = newName;
     event.location = location;
+    event.description = description;
     event.startDate = startDate;
     event.endDate = endDate;
     event.points = points;

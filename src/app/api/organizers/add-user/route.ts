@@ -3,6 +3,9 @@ import connectDB from "@/db/config";
 import { NextRequest, NextResponse } from "next/server";
 import Hacker from "@/db/models/hacker";
 import Hackathon from "@/db/models/hackathon";
+import mongoose from "mongoose";
+mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
+
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -23,7 +26,7 @@ export const POST = async (req: NextRequest) => {
 
     // Add logic here to associate the user with the hackathon
 
-    user.hackathons.push({ hackathon: id, points: 0 });
+    user.hackathons.push({ hackathon: id, points: 0, itemPoints: 0 });
     hackathon.hackers.push(email);
 
     await user.save();

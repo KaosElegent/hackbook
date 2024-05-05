@@ -4,8 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 import Hacker from "@/db/models/hacker";
 import Hackathon from "@/db/models/hackathon";
 import { user } from "@nextui-org/react";
-import { getSession } from "@auth0/nextjs-auth0";
-import { UserProfile } from "@auth0/nextjs-auth0/client";
+import { getSession } from '@auth0/nextjs-auth0';
+import { UserProfile } from '@auth0/nextjs-auth0/client';
+import mongoose from "mongoose";
+mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
+
 
 export const POST = async (req: NextRequest) => {
   try {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   Card,
   CardBody,
@@ -16,12 +16,12 @@ import {
   DatePicker,
   DatePickerProps,
 } from "@nextui-org/react";
-import {now, getLocalTimeZone} from "@internationalized/date";
-import { SearchIcon } from './SearchIcon';
-import EventCard from './EventCard';
+import { now, getLocalTimeZone } from "@internationalized/date";
+import { SearchIcon } from "./SearchIcon";
+import EventCard from "./EventCard";
 import addIcon from "@/public/Icons/add.svg";
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface Event {
   name: string;
@@ -40,13 +40,18 @@ interface EventsProps {
   hackathonID: string;
 }
 
-export default function Events({ refreshFunction, title, events, hackathonID }: EventsProps) {
+export default function Events({
+  refreshFunction,
+  title,
+  events,
+  hackathonID,
+}: EventsProps) {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
   const userType = localStorage.getItem("userType");
-  
+
   const filteredEvents = events.filter((event) =>
     event.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -61,7 +66,9 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
     const name = document.getElementById("name") as HTMLInputElement;
     const location = document.getElementById("location") as HTMLInputElement;
     const points = document.getElementById("points") as HTMLInputElement;
-    const description = document.getElementById("description") as HTMLInputElement;
+    const description = document.getElementById(
+      "description"
+    ) as HTMLInputElement;
 
     const res = await fetch("/api/events", {
       method: "POST",
@@ -69,7 +76,7 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: localStorage.getItem("selectedHackathonId"),
+        id: hackathonID,
         name: name.value,
         location: location.value,
         startDate: startDate,
@@ -84,7 +91,7 @@ export default function Events({ refreshFunction, title, events, hackathonID }: 
       refreshFunction();
       router.refresh();
     }
-  }
+  };
 
   return (
     <div className="border-2 border-[#27272a] rounded-[15px] p-2">

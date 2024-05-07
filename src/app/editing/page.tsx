@@ -192,16 +192,16 @@ export default function Editing() {
             {selectedHackathon !== null && (
               <Events
                 // @ts-ignore
-                title={selectedHackathon.name}
+                title={selectedHackathon.name || ""}
                 // @ts-ignore
-                events={selectedHackathon.events}
+                events={selectedHackathon.events || ""}
                 // @ts-ignore
                 refreshFunction={fetchHackathons}
                 // @ts-ignore
-                hackathonID={selectedHackathon._id}
+                hackathonID={selectedHackathon._id || ""}
               />
             )}
-            <Leaderboard />
+            {selectedHackathon && <Leaderboard />}
           </div>
         )}
         <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>

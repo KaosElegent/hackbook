@@ -7,7 +7,9 @@ import Hacker from "@/db/models/hacker";
 import { getSession } from "@auth0/nextjs-auth0";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import mongoose from "mongoose";
-mongoose.connect(process.env.MONGODB_URI || "", { dbName: process.env.DATABASE_NAME || "" });
+mongoose.connect(process.env.MONGODB_URI || "", {
+  dbName: process.env.DATABASE_NAME || "",
+});
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -23,6 +25,7 @@ export const POST = async (req: NextRequest) => {
       organizers: [email],
       hackers: [],
       events: [],
+      shop: [],
     });
 
     const savedHackathon = await hackathon.save();
@@ -38,6 +41,7 @@ export const POST = async (req: NextRequest) => {
 
     return new Response("Hackathon created successfully", { status: 200 });
   } catch (error) {
+    console.log(error);
     return new Response("Failed to create hackathon", { status: 500 });
   }
 };
@@ -66,7 +70,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   console.log("fetching data");
   try {
     //await connectDB();
-    const session:any = await getSession();
+    const session: any = await getSession();
 
     if (session) {
       const urlParams = new URLSearchParams(req.url.split("?")[1]);

@@ -50,7 +50,7 @@ export default function Leaderboard() {
 
   useEffect(() => {
     fetchHackers();
-  });
+  }, []);
 
   return (
     <div>
